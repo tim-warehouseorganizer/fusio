@@ -40,7 +40,10 @@ Per release:
 1. Set the version: `mvn versions:set -DnewVersion=1.0.0` (drop -SNAPSHOT).
 2. Full build: `mvn clean verify` — plus the JDBC integration tests against
    real databases (`docker compose up -d --wait`, see compose.yaml): `mvn test -pl fusio-jdbc -Dtest=MySqlLoadDataIT,PostgresCopyIT`.
-3. Publish: `mvn -Prelease clean deploy` — attaches sources + javadoc,
+3. Publish: `mvn -Prelease clean deploy \
+  -Dgpg.passphraseServerId=central \
+  -Darguments="-Dgpg.loopback=true"
+` — attaches sources + javadoc,
    signs, and uploads via the central-publishing plugin (fusio-bench is
    excluded automatically). Review and publish the deployment in the
    Central portal UI (autoPublish is off on purpose).
