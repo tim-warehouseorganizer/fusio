@@ -17,9 +17,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * INFILE). Not part of the default build (surefire runs *Test, not *IT).
  *
  * <pre>
- * docker run -d --name fusio-mysql -e MYSQL_ROOT_PASSWORD=fusio -e MYSQL_DATABASE=bench \
- *   -p 3316:3306 mysql:8.4 --local-infile=1
- * mvn test -pl fusio-jdbc -Dtest=MySqlLoadDataIT
+ * docker compose up -d --wait     (see compose.yaml at the repo root)
+ * mvn test -pl fusio-jdbc -Dtest='MySqlLoadDataIT,PostgresCopyIT'
  * </pre>
  */
 class MySqlLoadDataIT {

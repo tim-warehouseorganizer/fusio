@@ -30,19 +30,7 @@ jobs:
           java-version: '25'
           cache: maven
       - name: Start MySQL and Postgres
-        run: |
-          docker run -d --name fusio-mysql -e MYSQL_ROOT_PASSWORD=fusio -e MYSQL_DATABASE=bench \
-            -p 3316:3306 mysql:8.4 --local-infile=1
-          docker run -d --name fusio-pg -e POSTGRES_PASSWORD=fusio -e POSTGRES_DB=bench \
-            -p 5416:5432 postgres:16
-          for i in $(seq 1 60); do
-            docker exec fusio-mysql mysqladmin ping -h localhost -pfusio --silent && break
-            sleep 2
-          done
-          for i in $(seq 1 30); do
-            docker exec fusio-pg pg_isready -U postgres && break
-            sleep 2
-          done
+        run: docker compose up -d --wait
       - name: Build library
         run: mvn -B -ntp -DskipTests install
       # The bulk-load bridges round-trip 10K adversarial rows byte-exact

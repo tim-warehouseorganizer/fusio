@@ -16,9 +16,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * Integration test against a real Postgres. Not part of the default build.
  *
  * <pre>
- * docker run -d --name fusio-pg -e POSTGRES_PASSWORD=fusio -e POSTGRES_DB=bench \
- *   -p 5416:5432 postgres:16
- * mvn test -pl fusio-jdbc -Dtest=PostgresCopyIT
+ * docker compose up -d --wait     (see compose.yaml at the repo root)
+ * mvn test -pl fusio-jdbc -Dtest='MySqlLoadDataIT,PostgresCopyIT'
  * </pre>
  */
 class PostgresCopyIT {

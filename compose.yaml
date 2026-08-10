@@ -1,0 +1,33 @@
+# The databases the JDBC integration tests and benchmarks run against.
+#   docker compose up -d --wait
+#   mvn test -pl fusio-jdbc -Dtest='MySqlLoadDataIT,PostgresCopyIT'
+#   java -jar fusio-bench/target/benchmarks.jar JdbcBench
+#   docker compose down
+# Ports are offset (3316/5416) to avoid colliding with local installs.
+services:
+  mysql:
+    image: mysql:8.4
+    command: --local-infile=1        # required for LOAD DATA LOCAL INFILE
+    environment:
+      MYSQL_ROOT_PASSWORD: fusio
+      MYSQL_DATABASE: bench
+    ports:
+      - "3316:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pfusio"]
+      interval: 2s
+      timeout: 5s
+      retries: 60
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: fusio
+      POSTGRES_DB: bench
+    ports:
+      - "5416:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 60

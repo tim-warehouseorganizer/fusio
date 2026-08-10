@@ -1,0 +1,6 @@
+# Test fixtures are byte-exact: line endings ARE the test data.
+# (CRLF corpus files normalized to LF broke CI on Linux — twice now,
+# once in each direction. Never let git touch these.)
+fusio-core/src/test/resources/** -text
+jfr/** -text
+*.jfr -text
