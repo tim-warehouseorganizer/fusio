@@ -7,12 +7,17 @@
   <parent>
     <groupId>dev.flamelens</groupId>
     <artifactId>fusio-parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
 
   <artifactId>fusio-bench</artifactId>
   <name>fusio-bench</name>
   <description>JMH benchmarks: fusio vs java.io decorators, opencsv, and jackson-csv</description>
+
+  <url>https://github.com/tim-warehouseorganizer/fusio/tree/main/fusio-bench</url>
+  <scm>
+    <url>https://github.com/tim-warehouseorganizer/fusio/tree/main/fusio-bench</url>
+  </scm>
 
   <properties>
     <!-- benchmarks are not a library: never deployed/published. The shaded

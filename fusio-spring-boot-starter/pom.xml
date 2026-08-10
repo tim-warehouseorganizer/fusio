@@ -7,12 +7,17 @@
   <parent>
     <groupId>dev.flamelens</groupId>
     <artifactId>fusio-parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
 
   <artifactId>fusio-spring-boot-starter</artifactId>
   <name>fusio-spring-boot-starter</name>
   <description>Drop-in Spring Boot auto-configuration: text/csv HttpMessageConverter and gzip request-body decompression backed by fusio pipelines</description>
+
+  <url>https://github.com/tim-warehouseorganizer/fusio/tree/main/fusio-spring-boot-starter</url>
+  <scm>
+    <url>https://github.com/tim-warehouseorganizer/fusio/tree/main/fusio-spring-boot-starter</url>
+  </scm>
 
   <properties>
     <spring-boot.version>4.0.5</spring-boot.version>
