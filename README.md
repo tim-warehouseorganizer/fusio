@@ -179,14 +179,33 @@ Server-side pieces activate only in servlet web apps; client and Redis pieces
 only when those stacks are on the classpath. Everything is additive — no
 existing behavior changes.
 
-## Bulk loading into databases (`fusio-jdbc`)
+## CSV → database: the bulk-loading story (`fusio-jdbc`)
 
-JDBC's normal path is frame-shaped — rows through prepared statements — but
-both major databases have a genuinely stream-shaped bulk door, and fusio
-walks straight through it: rows are formatted lazily as CSV
-(`CsvInputStream`, memory bounded at ~16KB regardless of row count) and
-streamed into MySQL's `LOAD DATA LOCAL INFILE` or Postgres's
-`COPY FROM STDIN`. 100K rows into MySQL 8.4 (Docker, same host):
+CSV is the lingua franca of data *boundaries* — what ERPs export, SaaS
+tools emit, customers upload, Excel produces. (Inside modern ML pipelines
+the internal format war went to Parquet/Arrow; fusio doesn't pretend
+otherwise — columnar stages are roadmap.) What has NOT changed is the
+canonical fast path from that boundary into a database: Postgres's
+`COPY ... FROM STDIN (FORMAT csv)` and MySQL's `LOAD DATA LOCAL INFILE`
+are stream-shaped bulk doors, and fusio walks straight through them —
+rows are formatted lazily as CSV (`CsvInputStream`, memory bounded at
+~16KB regardless of row count) and streamed in:
+
+```java
+// uploaded file -> parsed -> validated rows -> straight into the table
+List<String[]> rows = validate(FusioCsvReader.of(upload.getInputStream()).readAll());
+JdbcBulkLoad.postgresCopy(connection, "feature_store", COLUMNS, rows.iterator());
+```
+
+The ML-relevant case in 2026 is concrete: **Postgres as a vector/feature
+database (pgvector)**. Embedding and feature tables are bulk-loaded via
+COPY — this bridge is that path, with bounded memory and no ORM overhead.
+Database compatibility: the MySQL path also works against **MariaDB
+servers** when connecting through MySQL Connector/J (MariaDB's own driver
+exposes a different API — native support is roadmap). The portable
+`batchInsert` tier covers every other JDBC database.
+
+100K rows into MySQL 8.4 (Docker, same host):
 
 | route | time | heap allocated |
 |---|---|---|
@@ -203,6 +222,52 @@ against real MySQL and Postgres. The portable `batchInsert` tier runs
 anywhere and is tested on in-memory H2. Caveat: bulk paths bypass
 ORM-layer machinery (auditing, encryption, listeners) — an opt-in fast path
 for the right tables, not a transparent swap.
+
+## Swapping fusio in at the stream seams — the generic recipe
+
+Every library boundary is one of four shapes, and fusio has an adapter for
+each. Identify the shape, pick the adapter:
+
+| The other library... | Adapter | Example |
+|---|---|---|
+| **hands you an InputStream** (servlet body, SDK response, S3 download) | `ByteSource.from(in, chunkSize)` — the stream becomes a pipeline source | `ByteSource.from(request.getInputStream(), 64 * 1024).via(Utf8.decode())...` |
+| **wants an InputStream from you** (ObjectMapper, image decoders, S3 upload, JDBC bulk doors) | `PipeInputStream` (transform an existing stream) or `CsvInputStream` (rows from your code) | `objectMapper.readValue(new PipeInputStream(body, Gzip.gunzip()), Dto.class)` |
+| **wants a Reader / has a Reader-shaped API** (opencsv-style code) | `FusioCsvReader` — same readNext/readAll/Iterable shape | swap the construction line, keep the loop |
+| **pushes items at you** (event handlers, batch callbacks) | `Pipe.connect(sink)` — build the fused chain once, feed it per item | `Sink<String[]> sink = Csv.format().then(Utf8.encode()).connect(...)` |
+
+Rules of thumb: adapters pay at most one defensive copy at the boundary
+(documented on each); pipeline buffers are reused, so anything you retain
+past an `accept` call must be copied; and the fused interior stays fused —
+only the outermost seam speaks the legacy shape.
+
+## Charsets: UTF-8 by design, legacy at the boundary
+
+fusio's native decode/encode is UTF-8 only, deliberately: it is the
+interchange standard (the overwhelming default of the web, and Java's own
+default charset since JDK 18), and a single hot-path encoding keeps the
+fused decoder simple and fast. `Bom.strip()` handles the UTF-8 BOM Excel
+prepends.
+
+Legacy encodings still arrive in real CSV work, and the pattern is
+*transcode at the boundary, stay UTF-16/UTF-8 inside*:
+
+- **Windows-1252 / ISO-8859-1** — historical Excel "CSV" (ANSI) exports and
+  old system dumps;
+- **UTF-16LE** — Excel's "Unicode Text" export;
+- **GB18030** (mandated in China), **Shift_JIS**, **EUC-KR** — regional
+  defaults that outlived the transition.
+
+All of these work with fusio *today* via the Reader seam — the JDK
+transcodes, fusio does everything after:
+
+```java
+try (FusioCsvReader r = new FusioCsvReader(
+        new InputStreamReader(in, Charset.forName("windows-1252")))) { ... }
+```
+
+A native `Text.decode(charset)` pipe (generalizing `Utf8.decode`'s fused
+path to arbitrary charsets) is additive roadmap — it earns its place when a
+hot path actually bottlenecks on a legacy charset, not before.
 
 ## Dialects and the cascade
 
