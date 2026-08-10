@@ -1,6 +1,20 @@
 # Releasing to Maven Central
 
-One-time setup (manual, account-owner steps):
+## Release gate for 1.0.0
+
+The API contract is locked (see README "Stability"), but 1.0.0 does not
+publish until it has survived contact with real applications:
+
+1. flamelens is deployed and live;
+2. the launch blog post is written using flamelens's analysis of the JFR
+   recordings in `jfr/`;
+3. warehouseorganizer AND tüük both run against fusio in real use with no
+   interop issues (WHO already runs it for all CSV paths; tüük's
+   RestClient-based WhoClient exercises the starter's client side).
+
+Until then the version stays 1.0.0-SNAPSHOT, consumed from the local .m2.
+
+## One-time setup (manual, account-owner steps):
 
 1. **Central account** — sign in at https://central.sonatype.com (GitHub SSO
    works). Generate a user token (Account → Generate User Token) and put it
@@ -23,7 +37,7 @@ One-time setup (manual, account-owner steps):
 
 Per release:
 
-1. Set the version: `mvn versions:set -DnewVersion=0.1.0` (drop -SNAPSHOT).
+1. Set the version: `mvn versions:set -DnewVersion=1.0.0` (drop -SNAPSHOT).
 2. Full build: `mvn clean verify` — plus the JDBC integration tests against
    real databases (see fusio-jdbc/src/test — docker commands in the IT
    javadoc): `mvn test -pl fusio-jdbc -Dtest=MySqlLoadDataIT,PostgresCopyIT`.
@@ -31,11 +45,11 @@ Per release:
    signs, and uploads via the central-publishing plugin (fusio-bench is
    excluded automatically). Review and publish the deployment in the
    Central portal UI (autoPublish is off on purpose).
-4. Tag and bump: `git tag v0.1.0 && git push --tags`, then
-   `mvn versions:set -DnewVersion=0.2.0-SNAPSHOT` and commit.
+4. Tag and bump: `git tag v1.0.0 && git push --tags`, then
+   `mvn versions:set -DnewVersion=1.1.0-SNAPSHOT` and commit.
 
 After the first release: switch warehouseorganizer's fusio dependencies
-from 0.1.0-SNAPSHOT (local .m2) to 0.1.0 (Central) — that unblocks its
+from 1.0.0-SNAPSHOT (local .m2) to 1.0.0 (Central) — that unblocks its
 Heroku builds.
 
 GitHub note: the repo lives at tim-warehouseorganizer/fusio because the

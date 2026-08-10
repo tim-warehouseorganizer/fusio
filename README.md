@@ -348,8 +348,25 @@ either platform the profile shows ~99% of app time in `Inflater` itself: the
 pipeline overhead is gone, and the next win would be a faster inflater
 (libdeflate/zlib-ng via FFM) — on the roadmap.
 
-## Status
+## Stability: the 1.0 contract
 
-Experimental. API will change. Roadmap: zstd stage, decode-into-`MemorySegment`
-sinks (off-heap ML ingestion), Vector API scan stages, Linux benchmark runs,
-parallel segment scanning.
+The public API is locked. Everything documented in this README — the core
+types (`ByteSource`, `Pipeline`, `Pipe`, `Sink`, `Bytes`, `Chars`,
+`Segments`, `Mmap`), the pipes (`Utf8`, `Lines`, `Csv`, `CsvDialect`,
+`CsvCascade`, `Gzip`, `Bom`), the interop adapters (`FusioCsvReader`,
+`PipeInputStream`, `CsvInputStream`), `JdbcBulkLoad`, and the starter's
+auto-configured behavior and properties — follows semantic versioning:
+
+- **No breaking changes within 1.x.** Existing signatures, parsing/formatting
+  semantics, and dialect behaviors stay fixed; the compat and dialect test
+  suites are the executable contract.
+- **Additive evolution only** — new pipes, new dialects, new terminals, new
+  starter features arrive as additions.
+- **Deprecation before removal**, and removal only at a major version.
+
+Roadmap (all additive): zstd stage, decode-into-`MemorySegment` sinks,
+Vector API scan stages, parallel segment scanning, Kafka/AMQP payload
+serializers, `fusio-spring` message-converter metrics.
+
+1.0.0 publishes to Maven Central after real-application interop validation
+(see `docs/RELEASING.md` for the gate).
