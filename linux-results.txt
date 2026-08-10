@@ -1,0 +1,20 @@
+Benchmark                          Mode  Cnt    Score    Error  Units
+CsvBench.fusio                     avgt    5   42.068 ±  2.076  ms/op
+CsvBench.jacksonCsv                avgt    5   51.622 ±  2.003  ms/op
+CsvBench.opencsv                   avgt    5  115.744 ±  2.198  ms/op
+FusioApiBench.decoratorReadLine    avgt    5   41.477 ±  0.703  ms/op
+FusioApiBench.fusioByteLineViews   avgt    5   11.911 ±  0.620  ms/op
+FusioApiBench.fusioByteScan        avgt    5    6.941 ±  0.080  ms/op
+FusioApiBench.fusioCharScan        avgt    5   31.126 ±  0.998  ms/op
+FusioApiBench.fusioLineViews       avgt    5   39.971 ±  1.685  ms/op
+FusioApiBench.fusioLines           avgt    5   41.634 ±  1.280  ms/op
+GzipBench.decoratorGzipReadLine    avgt    5   69.504 ±  1.758  ms/op
+GzipBench.fusioGzipLineViews       avgt    5   64.807 ±  3.131  ms/op
+GzipBench.fusioGzipLines           avgt    5   74.331 ± 38.461  ms/op
+MmapBench.mmapCopyScan             avgt    5   42.917 ± 45.581  ms/op
+MmapBench.segmentScan              avgt    5   38.420 ± 52.892  ms/op
+MmapBench.segmentScanSwar          avgt    5   27.385 ±  1.540  ms/op
+MmapBench.streamScan               avgt    5   37.940 ±  2.400  ms/op
+SegmentBench.fusioOffHeap          avgt    5   46.027 ± 10.095  ms/op
+SegmentBench.fusioOffHeapPresized  avgt    5   25.952 ±  1.798  ms/op
+SegmentBench.jdkHeapDetour         avgt    5   31.414 ±  2.567  ms/op

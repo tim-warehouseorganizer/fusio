@@ -1,0 +1,525 @@
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.CsvBench.fusio
+
+# Run progress: 0.00% complete, ETA 00:00:45
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 47.985 ms/op
+# Warmup Iteration   2: 40.596 ms/op
+# Warmup Iteration   3: 40.228 ms/op
+# Warmup Iteration   4: 40.518 ms/op
+Iteration   1: 40.161 ms/op
+                 gc.alloc.rate:      2038.289 MB/sec
+                 gc.alloc.rate.norm: 85876732.160 B/op
+                 gc.count:           9.000 counts
+                 gc.time:            5.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   2: 40.188 ms/op
+                 gc.alloc.rate:      2036.962 MB/sec
+                 gc.alloc.rate.norm: 85876992.640 B/op
+                 gc.count:           10.000 counts
+                 gc.time:            6.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   3: 39.872 ms/op
+                 gc.alloc.rate:      2053.167 MB/sec
+                 gc.alloc.rate.norm: 85876700.000 B/op
+                 gc.count:           9.000 counts
+                 gc.time:            5.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   4: 39.771 ms/op
+                 gc.alloc.rate:      2058.347 MB/sec
+                 gc.alloc.rate.norm: 85876033.846 B/op
+                 gc.count:           10.000 counts
+                 gc.time:            6.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   5: 39.973 ms/op
+                 gc.alloc.rate:      2047.848 MB/sec
+                 gc.alloc.rate.norm: 85876562.154 B/op
+                 gc.count:           10.000 counts
+                 gc.time:            5.000 ms
+                 stack:              <delayed till summary>
+
+
+
+Result "dev.fusio.bench.CsvBench.fusio":
+  39.993 ±(99.9%) 0.695 ms/op [Average]
+  (min, avg, max) = (39.771, 39.993, 40.188), stdev = 0.180
+  CI (99.9%): [39.298, 40.688] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.CsvBench.fusio:gc.alloc.rate":
+  2046.923 ±(99.9%) 35.715 MB/sec [Average]
+  (min, avg, max) = (2036.962, 2046.923, 2058.347), stdev = 9.275
+  CI (99.9%): [2011.207, 2082.638] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.CsvBench.fusio:gc.alloc.rate.norm":
+  85876604.160 ±(99.9%) 1366.176 B/op [Average]
+  (min, avg, max) = (85876033.846, 85876604.160, 85876992.640), stdev = 354.792
+  CI (99.9%): [85875237.984, 85877970.336] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.CsvBench.fusio:gc.count":
+  48.000 ±(99.9%) 0.001 counts [Sum]
+  (min, avg, max) = (9.000, 9.600, 10.000), stdev = 0.548
+  CI (99.9%): [48.000, 48.000] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.CsvBench.fusio:gc.time":
+  27.000 ±(99.9%) 0.001 ms [Sum]
+  (min, avg, max) = (5.000, 5.400, 6.000), stdev = 0.548
+  CI (99.9%): [27.000, 27.000] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.CsvBench.fusio:stack":
+Stack profiler:
+
+....[Thread state distributions]....................................................................
+ 66.7%         RUNNABLE
+ 33.3%         TIMED_WAITING
+
+....[Thread state: RUNNABLE]........................................................................
+ 33.3%  50.0% <stack is empty, everything is filtered?>
+ 32.5%  48.8% dev.flamelens.fusio.pipes.Csv$CsvSink.accept
+  0.6%   1.0% sun.nio.cs.UTF_8$Decoder.decodeLoop
+  0.1%   0.1% dev.flamelens.fusio.pipes.Csv$CsvSink.endField
+  0.1%   0.1% java.lang.StringUTF16.compress
+
+....[Thread state: TIMED_WAITING]...................................................................
+ 33.3% 100.0% java.lang.Object.wait0
+
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioByteLineViews
+
+# Run progress: 20.00% complete, ETA 00:00:38
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 12.079 ms/op
+# Warmup Iteration   2: 11.792 ms/op
+# Warmup Iteration   3: 11.745 ms/op
+# Warmup Iteration   4: 11.746 ms/op
+Iteration   1: 11.699 ms/op
+                 gc.alloc.rate:      0.615 MB/sec
+                 gc.alloc.rate.norm: 7545.488 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   2: 11.697 ms/op
+                 gc.alloc.rate:      0.621 MB/sec
+                 gc.alloc.rate.norm: 7620.372 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   3: 11.608 ms/op
+                 gc.alloc.rate:      0.616 MB/sec
+                 gc.alloc.rate.norm: 7500.414 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   4: 11.722 ms/op
+                 gc.alloc.rate:      0.613 MB/sec
+                 gc.alloc.rate.norm: 7543.349 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   5: 11.634 ms/op
+                 gc.alloc.rate:      0.612 MB/sec
+                 gc.alloc.rate.norm: 7465.860 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioByteLineViews":
+  11.672 ±(99.9%) 0.187 ms/op [Average]
+  (min, avg, max) = (11.608, 11.672, 11.722), stdev = 0.049
+  CI (99.9%): [11.485, 11.859] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.FusioApiBench.fusioByteLineViews:gc.alloc.rate":
+  0.615 ±(99.9%) 0.014 MB/sec [Average]
+  (min, avg, max) = (0.612, 0.615, 0.621), stdev = 0.004
+  CI (99.9%): [0.602, 0.629] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.FusioApiBench.fusioByteLineViews:gc.alloc.rate.norm":
+  7535.097 ±(99.9%) 223.242 B/op [Average]
+  (min, avg, max) = (7465.860, 7535.097, 7620.372), stdev = 57.975
+  CI (99.9%): [7311.855, 7758.339] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.FusioApiBench.fusioByteLineViews:gc.count":
+  ≈ 0 counts
+
+Secondary result "dev.fusio.bench.FusioApiBench.fusioByteLineViews:stack":
+Stack profiler:
+
+....[Thread state distributions]....................................................................
+ 66.7%         RUNNABLE
+ 33.3%         TIMED_WAITING
+
+....[Thread state: RUNNABLE]........................................................................
+ 33.3%  50.0% dev.flamelens.fusio.ByteSource$2.drainTo
+ 33.3%  50.0% <stack is empty, everything is filtered?>
+
+....[Thread state: TIMED_WAITING]...................................................................
+ 33.3% 100.0% java.lang.Object.wait0
+
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.SegmentBench.fusioOffHeap
+
+# Run progress: 40.00% complete, ETA 00:00:28
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 39.291 ms/op
+# Warmup Iteration   2: 39.620 ms/op
+# Warmup Iteration   3: 38.979 ms/op
+# Warmup Iteration   4: 40.025 ms/op
+Iteration   1: 41.709 ms/op
+                 gc.alloc.rate:      2.172 MB/sec
+                 gc.alloc.rate.norm: 95038.667 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   2: 40.847 ms/op
+                 gc.alloc.rate:      2.205 MB/sec
+                 gc.alloc.rate.norm: 94520.640 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   3: 39.639 ms/op
+                 gc.alloc.rate:      2.244 MB/sec
+                 gc.alloc.rate.norm: 93329.846 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   4: 38.413 ms/op
+                 gc.alloc.rate:      2.294 MB/sec
+                 gc.alloc.rate.norm: 92453.630 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   5: 39.278 ms/op
+                 gc.alloc.rate:      2.259 MB/sec
+                 gc.alloc.rate.norm: 93080.000 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+
+
+Result "dev.fusio.bench.SegmentBench.fusioOffHeap":
+  39.977 ±(99.9%) 5.023 ms/op [Average]
+  (min, avg, max) = (38.413, 39.977, 41.709), stdev = 1.305
+  CI (99.9%): [34.954, 45.000] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeap:gc.alloc.rate":
+  2.235 ±(99.9%) 0.182 MB/sec [Average]
+  (min, avg, max) = (2.172, 2.235, 2.294), stdev = 0.047
+  CI (99.9%): [2.052, 2.417] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeap:gc.alloc.rate.norm":
+  93684.556 ±(99.9%) 4101.948 B/op [Average]
+  (min, avg, max) = (92453.630, 93684.556, 95038.667), stdev = 1065.263
+  CI (99.9%): [89582.609, 97786.504] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeap:gc.count":
+  ≈ 0 counts
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeap:stack":
+Stack profiler:
+
+....[Thread state distributions]....................................................................
+ 66.7%         RUNNABLE
+ 33.3%         TIMED_WAITING
+
+....[Thread state: RUNNABLE]........................................................................
+ 33.3%  50.0% <stack is empty, everything is filtered?>
+ 19.4%  29.1% java.util.zip.Inflater.inflateBytesBytes
+  8.6%  12.9% jdk.internal.foreign.SegmentFactories.initNativeMemory
+  2.6%   3.9% jdk.internal.misc.Unsafe.freeMemory0
+  1.7%   2.6% dev.flamelens.fusio.Segments.lambda$collect$0
+  0.7%   1.1% jdk.internal.misc.ScopedMemoryAccess.copyMemoryInternal
+  0.1%   0.2% jdk.internal.misc.Unsafe.allocateMemoryChecks
+  0.1%   0.1% jdk.internal.ref.CleanerImpl.getCleanerImpl
+  0.1%   0.1% jdk.internal.misc.Unsafe.allocateMemory0
+
+....[Thread state: TIMED_WAITING]...................................................................
+ 33.3% 100.0% java.lang.Object.wait0
+
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.SegmentBench.fusioOffHeapPresized
+
+# Run progress: 60.00% complete, ETA 00:00:19
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 32.275 ms/op
+# Warmup Iteration   2: 32.139 ms/op
+# Warmup Iteration   3: 32.028 ms/op
+# Warmup Iteration   4: 32.304 ms/op
+Iteration   1: 32.352 ms/op
+                 gc.alloc.rate:      2.592 MB/sec
+                 gc.alloc.rate.norm: 87978.581 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   2: 32.124 ms/op
+                 gc.alloc.rate:      2.603 MB/sec
+                 gc.alloc.rate.norm: 87732.500 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   3: 32.276 ms/op
+                 gc.alloc.rate:      2.593 MB/sec
+                 gc.alloc.rate.norm: 87790.750 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   4: 31.837 ms/op
+                 gc.alloc.rate:      2.608 MB/sec
+                 gc.alloc.rate.norm: 87117.250 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+Iteration   5: 31.871 ms/op
+                 gc.alloc.rate:      2.612 MB/sec
+                 gc.alloc.rate.norm: 87330.750 B/op
+                 gc.count:           ≈ 0 counts
+                 stack:              <delayed till summary>
+
+
+
+Result "dev.fusio.bench.SegmentBench.fusioOffHeapPresized":
+  32.092 ±(99.9%) 0.896 ms/op [Average]
+  (min, avg, max) = (31.837, 32.092, 32.352), stdev = 0.233
+  CI (99.9%): [31.196, 32.988] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeapPresized:gc.alloc.rate":
+  2.601 ±(99.9%) 0.035 MB/sec [Average]
+  (min, avg, max) = (2.592, 2.601, 2.612), stdev = 0.009
+  CI (99.9%): [2.567, 2.636] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeapPresized:gc.alloc.rate.norm":
+  87589.966 ±(99.9%) 1364.542 B/op [Average]
+  (min, avg, max) = (87117.250, 87589.966, 87978.581), stdev = 354.367
+  CI (99.9%): [86225.424, 88954.509] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeapPresized:gc.count":
+  ≈ 0 counts
+
+Secondary result "dev.fusio.bench.SegmentBench.fusioOffHeapPresized:stack":
+Stack profiler:
+
+....[Thread state distributions]....................................................................
+ 66.6%         RUNNABLE
+ 33.3%         TIMED_WAITING
+
+....[Thread state: RUNNABLE]........................................................................
+ 33.3%  50.1% <stack is empty, everything is filtered?>
+ 26.0%  39.1% java.util.zip.Inflater.inflateBytesBytes
+  6.0%   9.0% jdk.internal.foreign.SegmentFactories.initNativeMemory
+  1.1%   1.7% jdk.internal.misc.Unsafe.freeMemory0
+  0.1%   0.1% dev.flamelens.fusio.pipes.Gzip$GunzipSink.<init>
+
+....[Thread state: TIMED_WAITING]...................................................................
+ 33.3% 100.0% java.lang.Object.wait0
+
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.SegmentBench.jdkHeapDetour
+
+# Run progress: 80.00% complete, ETA 00:00:09
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 39.694 ms/op
+# Warmup Iteration   2: 36.996 ms/op
+# Warmup Iteration   3: 36.787 ms/op
+# Warmup Iteration   4: 37.160 ms/op
+Iteration   1: 36.624 ms/op
+                 gc.alloc.rate:      922.163 MB/sec
+                 gc.alloc.rate.norm: 35429147.429 B/op
+                 gc.count:           7.000 counts
+                 gc.time:            9.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   2: 36.141 ms/op
+                 gc.alloc.rate:      934.442 MB/sec
+                 gc.alloc.rate.norm: 35428513.714 B/op
+                 gc.count:           7.000 counts
+                 gc.time:            8.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   3: 36.076 ms/op
+                 gc.alloc.rate:      936.162 MB/sec
+                 gc.alloc.rate.norm: 35428636.286 B/op
+                 gc.count:           7.000 counts
+                 gc.time:            9.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   4: 37.389 ms/op
+                 gc.alloc.rate:      903.283 MB/sec
+                 gc.alloc.rate.norm: 35429467.852 B/op
+                 gc.count:           7.000 counts
+                 gc.time:            8.000 ms
+                 stack:              <delayed till summary>
+
+Iteration   5: 36.733 ms/op
+                 gc.alloc.rate:      919.324 MB/sec
+                 gc.alloc.rate.norm: 35428841.714 B/op
+                 gc.count:           7.000 counts
+                 gc.time:            9.000 ms
+                 stack:              <delayed till summary>
+
+
+
+Result "dev.fusio.bench.SegmentBench.jdkHeapDetour":
+  36.592 ±(99.9%) 2.042 ms/op [Average]
+  (min, avg, max) = (36.076, 36.592, 37.389), stdev = 0.530
+  CI (99.9%): [34.551, 38.634] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.jdkHeapDetour:gc.alloc.rate":
+  923.075 ±(99.9%) 51.197 MB/sec [Average]
+  (min, avg, max) = (903.283, 923.075, 936.162), stdev = 13.296
+  CI (99.9%): [871.878, 974.272] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.jdkHeapDetour:gc.alloc.rate.norm":
+  35428921.399 ±(99.9%) 1495.749 B/op [Average]
+  (min, avg, max) = (35428513.714, 35428921.399, 35429467.852), stdev = 388.441
+  CI (99.9%): [35427425.650, 35430417.148] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.jdkHeapDetour:gc.count":
+  35.000 ±(99.9%) 0.001 counts [Sum]
+  (min, avg, max) = (7.000, 7.000, 7.000), stdev = 0.001
+  CI (99.9%): [35.000, 35.000] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.jdkHeapDetour:gc.time":
+  43.000 ±(99.9%) 0.001 ms [Sum]
+  (min, avg, max) = (8.000, 8.600, 9.000), stdev = 0.548
+  CI (99.9%): [43.000, 43.000] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.SegmentBench.jdkHeapDetour:stack":
+Stack profiler:
+
+....[Thread state distributions]....................................................................
+ 66.7%         RUNNABLE
+ 33.3%         TIMED_WAITING
+
+....[Thread state: RUNNABLE]........................................................................
+ 33.3%  50.0% <stack is empty, everything is filtered?>
+ 23.4%  35.1% java.util.zip.Inflater.inflateBytesBytes
+  3.9%   5.9% jdk.internal.foreign.SegmentFactories.initNativeMemory
+  3.9%   5.9% java.io.InputStream.readNBytes
+  0.9%   1.4% jdk.internal.misc.Unsafe.copyMemory0
+  0.9%   1.4% jdk.internal.misc.Unsafe.freeMemory0
+  0.1%   0.2% java.util.zip.InflaterInputStream.read
+  0.1%   0.1% java.util.zip.GZIPInputStream.skipBytes
+
+....[Thread state: TIMED_WAITING]...................................................................
+ 33.3% 100.0% java.lang.Object.wait0
+
+
+
+# Run complete. Total time: 00:00:49
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                                             Mode  Cnt         Score      Error   Units
+CsvBench.fusio                                        avgt    5        39.993 ±    0.695   ms/op
+CsvBench.fusio:gc.alloc.rate                          avgt    5      2046.923 ±   35.715  MB/sec
+CsvBench.fusio:gc.alloc.rate.norm                     avgt    5  85876604.160 ± 1366.176    B/op
+CsvBench.fusio:gc.count                               avgt    5        48.000             counts
+CsvBench.fusio:gc.time                                avgt    5        27.000                 ms
+CsvBench.fusio:stack                                  avgt                NaN                ---
+FusioApiBench.fusioByteLineViews                      avgt    5        11.672 ±    0.187   ms/op
+FusioApiBench.fusioByteLineViews:gc.alloc.rate        avgt    5         0.615 ±    0.014  MB/sec
+FusioApiBench.fusioByteLineViews:gc.alloc.rate.norm   avgt    5      7535.097 ±  223.242    B/op
+FusioApiBench.fusioByteLineViews:gc.count             avgt    5           ≈ 0             counts
+FusioApiBench.fusioByteLineViews:stack                avgt                NaN                ---
+SegmentBench.fusioOffHeap                             avgt    5        39.977 ±    5.023   ms/op
+SegmentBench.fusioOffHeap:gc.alloc.rate               avgt    5         2.235 ±    0.182  MB/sec
+SegmentBench.fusioOffHeap:gc.alloc.rate.norm          avgt    5     93684.556 ± 4101.948    B/op
+SegmentBench.fusioOffHeap:gc.count                    avgt    5           ≈ 0             counts
+SegmentBench.fusioOffHeap:stack                       avgt                NaN                ---
+SegmentBench.fusioOffHeapPresized                     avgt    5        32.092 ±    0.896   ms/op
+SegmentBench.fusioOffHeapPresized:gc.alloc.rate       avgt    5         2.601 ±    0.035  MB/sec
+SegmentBench.fusioOffHeapPresized:gc.alloc.rate.norm  avgt    5     87589.966 ± 1364.542    B/op
+SegmentBench.fusioOffHeapPresized:gc.count            avgt    5           ≈ 0             counts
+SegmentBench.fusioOffHeapPresized:stack               avgt                NaN                ---
+SegmentBench.jdkHeapDetour                            avgt    5        36.592 ±    2.042   ms/op
+SegmentBench.jdkHeapDetour:gc.alloc.rate              avgt    5       923.075 ±   51.197  MB/sec
+SegmentBench.jdkHeapDetour:gc.alloc.rate.norm         avgt    5  35428921.399 ± 1495.749    B/op
+SegmentBench.jdkHeapDetour:gc.count                   avgt    5        35.000             counts
+SegmentBench.jdkHeapDetour:gc.time                    avgt    5        43.000                 ms
+SegmentBench.jdkHeapDetour:stack                      avgt                NaN                ---
