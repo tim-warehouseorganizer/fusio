@@ -7,7 +7,7 @@
   <parent>
     <groupId>dev.flamelens</groupId>
     <artifactId>fusio-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
 
   <artifactId>fusio-bench</artifactId>
@@ -15,9 +15,10 @@
   <description>JMH benchmarks: fusio vs java.io decorators, opencsv, and jackson-csv</description>
 
   <properties>
-    <!-- benchmarks are not a library: never deployed/published -->
+    <!-- benchmarks are not a library: never deployed/published. The shaded
+         jar bundles JMH (GPL+CE) — it must never reach Central under our
+         Apache-2.0 coordinates. -->
     <maven.deploy.skip>true</maven.deploy.skip>
-    <skipPublishing>true</skipPublishing>
   </properties>
 
   <dependencies>
@@ -72,6 +73,14 @@
               <version>${jmh.version}</version>
             </path>
           </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.11.0</version>
+        <configuration>
+          <skipPublishing>true</skipPublishing>
         </configuration>
       </plugin>
       <plugin>
