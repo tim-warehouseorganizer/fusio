@@ -1,0 +1,21 @@
+fusio
+Copyright 2026 the fusio authors
+
+Licensed under the Apache License, Version 2.0.
+
+This product's test suite includes material derived from:
+
+- opencsv (https://opencsv.sourceforge.net/), Copyright 2005 Bytecode Pty Ltd
+  and opencsv contributors, Apache License 2.0 — parsing test cases ported
+  into fusio-core's compat and dialect suites, and the Bug143.csv fixture.
+
+- jackson-dataformat-csv (https://github.com/FasterXML/jackson-dataformats-text),
+  Copyright FasterXML, Apache License 2.0 — parsing test cases ported into
+  fusio-core's compat and dialect suites, and two CSV fuzzer fixtures.
+
+- csv-spectrum (https://github.com/maxogden/csv-spectrum), BSD-2-Clause —
+  the acceptance corpus vendored under fusio-core test resources
+  (with one ground-truth correction documented in CsvSpectrumCompatTest).
+
+No third-party source is included in the shipped artifacts; the material
+above appears in test scope only.
