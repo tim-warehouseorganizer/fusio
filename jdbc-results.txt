@@ -1,0 +1,15 @@
+Benchmark                                   Mode  Cnt          Score         Error   Units
+JdbcBench.fusioLoadData                       ss    3        419.896 ±      68.098   ms/op
+JdbcBench.fusioLoadData:gc.alloc.rate         ss    3         10.857 ±       1.389  MB/sec
+JdbcBench.fusioLoadData:gc.alloc.rate.norm    ss    3    5184709.333 ±  857932.620    B/op
+JdbcBench.fusioLoadData:gc.count              ss    3            ≈ 0                counts
+JdbcBench.plainBatch                          ss    3     287262.260 ±  180298.696   ms/op
+JdbcBench.plainBatch:gc.alloc.rate            ss    3          1.630 ±       0.996  MB/sec
+JdbcBench.plainBatch:gc.alloc.rate.norm       ss    3  490918029.333 ± 7885754.013    B/op
+JdbcBench.plainBatch:gc.count                 ss    3          9.000                counts
+JdbcBench.plainBatch:gc.time                  ss    3         22.000                    ms
+JdbcBench.rewriteBatch                        ss    3       1548.866 ±    3216.115   ms/op
+JdbcBench.rewriteBatch:gc.alloc.rate          ss    3        133.654 ±     274.738  MB/sec
+JdbcBench.rewriteBatch:gc.alloc.rate.norm     ss    3  219818442.667 ±  451295.140    B/op
+JdbcBench.rewriteBatch:gc.count               ss    3          4.000                counts
+JdbcBench.rewriteBatch:gc.time                ss    3          8.000                    ms

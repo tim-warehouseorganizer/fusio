@@ -1,0 +1,290 @@
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 1 iterations, single-shot each
+# Measurement: 3 iterations, single-shot each
+# Timeout: 10 min per iteration
+# Threads: 1 thread
+# Benchmark mode: Single shot invocation time
+# Benchmark: dev.fusio.bench.JdbcBench.fusioLoadData
+
+# Run progress: 0.00% complete, ETA 00:00:00
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 418.921 ms/op
+Iteration   1: 419.271 ms/op
+                 gc.alloc.rate:      10.859 MB/sec
+                 gc.alloc.rate.norm: 5155720.000 B/op
+                 gc.count:           ≈ 0 counts
+
+Iteration   2: 416.516 ms/op
+                 gc.alloc.rate:      10.779 MB/sec
+                 gc.alloc.rate.norm: 5159440.000 B/op
+                 gc.count:           ≈ 0 counts
+
+Iteration   3: 423.902 ms/op
+                 gc.alloc.rate:      10.931 MB/sec
+                 gc.alloc.rate.norm: 5238968.000 B/op
+                 gc.count:           ≈ 0 counts
+
+
+
+Result "dev.fusio.bench.JdbcBench.fusioLoadData":
+  N = 3
+  mean =    419.896 ±(99.9%) 68.098 ms/op
+
+  Histogram, ms/op:
+    [416.000, 416.500) = 0 
+    [416.500, 417.000) = 1 
+    [417.000, 417.500) = 0 
+    [417.500, 418.000) = 0 
+    [418.000, 418.500) = 0 
+    [418.500, 419.000) = 0 
+    [419.000, 419.500) = 1 
+    [419.500, 420.000) = 0 
+    [420.000, 420.500) = 0 
+    [420.500, 421.000) = 0 
+    [421.000, 421.500) = 0 
+    [421.500, 422.000) = 0 
+    [422.000, 422.500) = 0 
+    [422.500, 423.000) = 0 
+    [423.000, 423.500) = 0 
+
+  Percentiles, ms/op:
+      p(0.0000) =    416.516 ms/op
+     p(50.0000) =    419.271 ms/op
+     p(90.0000) =    423.902 ms/op
+     p(95.0000) =    423.902 ms/op
+     p(99.0000) =    423.902 ms/op
+     p(99.9000) =    423.902 ms/op
+     p(99.9900) =    423.902 ms/op
+     p(99.9990) =    423.902 ms/op
+     p(99.9999) =    423.902 ms/op
+    p(100.0000) =    423.902 ms/op
+
+Secondary result "dev.fusio.bench.JdbcBench.fusioLoadData:gc.alloc.rate":
+  10.857 ±(99.9%) 1.389 MB/sec [Average]
+  (min, avg, max) = (10.779, 10.857, 10.931), stdev = 0.076
+  CI (99.9%): [9.468, 12.246] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.fusioLoadData:gc.alloc.rate.norm":
+  5184709.333 ±(99.9%) 857932.620 B/op [Average]
+  (min, avg, max) = (5155720.000, 5184709.333, 5238968.000), stdev = 47026.182
+  CI (99.9%): [4326776.713, 6042641.953] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.fusioLoadData:gc.count":
+  ≈ 0 counts
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 1 iterations, single-shot each
+# Measurement: 3 iterations, single-shot each
+# Timeout: 10 min per iteration
+# Threads: 1 thread
+# Benchmark mode: Single shot invocation time
+# Benchmark: dev.fusio.bench.JdbcBench.plainBatch
+
+# Run progress: 33.33% complete, ETA 00:00:05
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 350192.127 ms/op
+Iteration   1: 297596.339 ms/op
+                 gc.alloc.rate:      1.574 MB/sec
+                 gc.alloc.rate.norm: 491414840.000 B/op
+                 gc.count:           3.000 counts
+                 gc.time:            6.000 ms
+
+Iteration   2: 286287.412 ms/op
+                 gc.alloc.rate:      1.634 MB/sec
+                 gc.alloc.rate.norm: 490628152.000 B/op
+                 gc.count:           3.000 counts
+                 gc.time:            9.000 ms
+
+Iteration   3: 277903.031 ms/op
+                 gc.alloc.rate:      1.683 MB/sec
+                 gc.alloc.rate.norm: 490711096.000 B/op
+                 gc.count:           3.000 counts
+                 gc.time:            7.000 ms
+
+
+
+Result "dev.fusio.bench.JdbcBench.plainBatch":
+  N = 3
+  mean = 287262.260 ±(99.9%) 180298.696 ms/op
+
+  Histogram, ms/op:
+    [270000.000, 272500.000) = 0 
+    [272500.000, 275000.000) = 0 
+    [275000.000, 277500.000) = 0 
+    [277500.000, 280000.000) = 1 
+    [280000.000, 282500.000) = 0 
+    [282500.000, 285000.000) = 0 
+    [285000.000, 287500.000) = 1 
+    [287500.000, 290000.000) = 0 
+    [290000.000, 292500.000) = 0 
+    [292500.000, 295000.000) = 0 
+    [295000.000, 297500.000) = 0 
+
+  Percentiles, ms/op:
+      p(0.0000) = 277903.031 ms/op
+     p(50.0000) = 286287.412 ms/op
+     p(90.0000) = 297596.339 ms/op
+     p(95.0000) = 297596.339 ms/op
+     p(99.0000) = 297596.339 ms/op
+     p(99.9000) = 297596.339 ms/op
+     p(99.9900) = 297596.339 ms/op
+     p(99.9990) = 297596.339 ms/op
+     p(99.9999) = 297596.339 ms/op
+    p(100.0000) = 297596.339 ms/op
+
+Secondary result "dev.fusio.bench.JdbcBench.plainBatch:gc.alloc.rate":
+  1.630 ±(99.9%) 0.996 MB/sec [Average]
+  (min, avg, max) = (1.574, 1.630, 1.683), stdev = 0.055
+  CI (99.9%): [0.635, 2.626] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.plainBatch:gc.alloc.rate.norm":
+  490918029.333 ±(99.9%) 7885754.013 B/op [Average]
+  (min, avg, max) = (490628152.000, 490918029.333, 491414840.000), stdev = 432244.787
+  CI (99.9%): [483032275.320, 498803783.346] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.plainBatch:gc.count":
+  9.000 ±(99.9%) 0.001 counts [Sum]
+  (min, avg, max) = (3.000, 3.000, 3.000), stdev = 0.001
+  CI (99.9%): [9.000, 9.000] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.plainBatch:gc.time":
+  22.000 ±(99.9%) 0.001 ms [Sum]
+  (min, avg, max) = (6.000, 7.333, 9.000), stdev = 1.528
+  CI (99.9%): [22.000, 22.000] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: C:\src\jdk-25.0.2+10\bin\java.exe
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 1 iterations, single-shot each
+# Measurement: 3 iterations, single-shot each
+# Timeout: 10 min per iteration
+# Threads: 1 thread
+# Benchmark mode: Single shot invocation time
+# Benchmark: dev.fusio.bench.JdbcBench.rewriteBatch
+
+# Run progress: 66.67% complete, ETA 00:10:07
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/C:/src/fusio/fusio-bench/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1798.294 ms/op
+Iteration   1: 1555.964 ms/op
+                 gc.alloc.rate:      131.879 MB/sec
+                 gc.alloc.rate.norm: 219802896.000 B/op
+                 gc.count:           1.000 counts
+                 gc.time:            2.000 ms
+
+Iteration   2: 1721.495 ms/op
+                 gc.alloc.rate:      119.560 MB/sec
+                 gc.alloc.rate.norm: 219805464.000 B/op
+                 gc.count:           2.000 counts
+                 gc.time:            4.000 ms
+
+Iteration   3: 1369.138 ms/op
+                 gc.alloc.rate:      149.521 MB/sec
+                 gc.alloc.rate.norm: 219846968.000 B/op
+                 gc.count:           1.000 counts
+                 gc.time:            2.000 ms
+
+
+
+Result "dev.fusio.bench.JdbcBench.rewriteBatch":
+  N = 3
+  mean =   1548.866 ±(99.9%) 3216.115 ms/op
+
+  Histogram, ms/op:
+    [1300.000, 1350.000) = 0 
+    [1350.000, 1400.000) = 1 
+    [1400.000, 1450.000) = 0 
+    [1450.000, 1500.000) = 0 
+    [1500.000, 1550.000) = 0 
+    [1550.000, 1600.000) = 1 
+    [1600.000, 1650.000) = 0 
+    [1650.000, 1700.000) = 0 
+    [1700.000, 1750.000) = 1 
+
+  Percentiles, ms/op:
+      p(0.0000) =   1369.138 ms/op
+     p(50.0000) =   1555.964 ms/op
+     p(90.0000) =   1721.495 ms/op
+     p(95.0000) =   1721.495 ms/op
+     p(99.0000) =   1721.495 ms/op
+     p(99.9000) =   1721.495 ms/op
+     p(99.9900) =   1721.495 ms/op
+     p(99.9990) =   1721.495 ms/op
+     p(99.9999) =   1721.495 ms/op
+    p(100.0000) =   1721.495 ms/op
+
+Secondary result "dev.fusio.bench.JdbcBench.rewriteBatch:gc.alloc.rate":
+  133.654 ±(99.9%) 274.738 MB/sec [Average]
+  (min, avg, max) = (119.560, 133.654, 149.521), stdev = 15.059
+  CI (99.9%): [≈ 0, 408.391] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.rewriteBatch:gc.alloc.rate.norm":
+  219818442.667 ±(99.9%) 451295.140 B/op [Average]
+  (min, avg, max) = (219802896.000, 219818442.667, 219846968.000), stdev = 24737.009
+  CI (99.9%): [219367147.526, 220269737.807] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.rewriteBatch:gc.count":
+  4.000 ±(99.9%) 0.001 counts [Sum]
+  (min, avg, max) = (1.000, 1.333, 2.000), stdev = 0.577
+  CI (99.9%): [4.000, 4.000] (assumes normal distribution)
+
+Secondary result "dev.fusio.bench.JdbcBench.rewriteBatch:gc.time":
+  8.000 ±(99.9%) 0.001 ms [Sum]
+  (min, avg, max) = (2.000, 2.667, 4.000), stdev = 1.155
+  CI (99.9%): [8.000, 8.000] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:20:23
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                                   Mode  Cnt          Score         Error   Units
+JdbcBench.fusioLoadData                       ss    3        419.896 ±      68.098   ms/op
+JdbcBench.fusioLoadData:gc.alloc.rate         ss    3         10.857 ±       1.389  MB/sec
+JdbcBench.fusioLoadData:gc.alloc.rate.norm    ss    3    5184709.333 ±  857932.620    B/op
+JdbcBench.fusioLoadData:gc.count              ss    3            ≈ 0                counts
+JdbcBench.plainBatch                          ss    3     287262.260 ±  180298.696   ms/op
+JdbcBench.plainBatch:gc.alloc.rate            ss    3          1.630 ±       0.996  MB/sec
+JdbcBench.plainBatch:gc.alloc.rate.norm       ss    3  490918029.333 ± 7885754.013    B/op
+JdbcBench.plainBatch:gc.count                 ss    3          9.000                counts
+JdbcBench.plainBatch:gc.time                  ss    3         22.000                    ms
+JdbcBench.rewriteBatch                        ss    3       1548.866 ±    3216.115   ms/op
+JdbcBench.rewriteBatch:gc.alloc.rate          ss    3        133.654 ±     274.738  MB/sec
+JdbcBench.rewriteBatch:gc.alloc.rate.norm     ss    3  219818442.667 ±  451295.140    B/op
+JdbcBench.rewriteBatch:gc.count               ss    3          4.000                counts
+JdbcBench.rewriteBatch:gc.time                ss    3          8.000                    ms
+
+Benchmark result is saved to jdbc-results.txt
