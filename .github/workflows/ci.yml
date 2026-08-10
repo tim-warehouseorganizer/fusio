@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      # All modules, all unit + compat + dialect suites (~230 tests).
+      # *IT integration tests are excluded by surefire naming and run in the
+      # integration job below against real databases.
+      - run: mvn -B -ntp verify
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Start MySQL and Postgres
+        run: |
+          docker run -d --name fusio-mysql -e MYSQL_ROOT_PASSWORD=fusio -e MYSQL_DATABASE=bench \
+            -p 3316:3306 mysql:8.4 --local-infile=1
+          docker run -d --name fusio-pg -e POSTGRES_PASSWORD=fusio -e POSTGRES_DB=bench \
+            -p 5416:5432 postgres:16
+          for i in $(seq 1 60); do
+            docker exec fusio-mysql mysqladmin ping -h localhost -pfusio --silent && break
+            sleep 2
+          done
+          for i in $(seq 1 30); do
+            docker exec fusio-pg pg_isready -U postgres && break
+            sleep 2
+          done
+      - name: Build library
+        run: mvn -B -ntp -DskipTests install
+      # The bulk-load bridges round-trip 10K adversarial rows byte-exact
+      # against real MySQL (LOAD DATA LOCAL INFILE) and Postgres (COPY).
+      - name: Run JDBC integration tests
+        run: mvn -B -ntp test -pl fusio-jdbc -Dtest='MySqlLoadDataIT,PostgresCopyIT'
