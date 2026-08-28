@@ -55,12 +55,49 @@ public final class Csv {
         return format(delimiter, false);
     }
 
+    /**
+     * How a null field is written, and whether backslash carries meaning.
+     *
+     * <p>RFC 4180 has no way to say "null" — it cannot distinguish an absent value from an empty
+     * string. Bulk-load targets each solve that differently, and getting it wrong is silent: the
+     * rows load successfully with empty strings where nulls belong, which fails later on a numeric
+     * or date column, or reads back as "" forever on a text one.
+     */
+    public enum Escaping {
+        /**
+         * RFC 4180. Null and empty string both write as an empty field and cannot be told apart.
+         * Correct for interchange, wrong for any loader that needs real nulls.
+         */
+        RFC4180,
+        /**
+         * Postgres {@code COPY ... (FORMAT csv)}: an unquoted empty field is NULL, a quoted
+         * {@code ""} is the empty string. Postgres CSV assigns no special meaning to backslash,
+         * so none is added.
+         */
+        POSTGRES_COPY,
+        /**
+         * MySQL {@code LOAD DATA} with the default {@code ESCAPED BY '\\'}: null writes as an
+         * unquoted {@code \N}, and literal backslashes in data are doubled so they survive. The
+         * statement MUST NOT use {@code ESCAPED BY ''} with this mode — that disables escape
+         * processing, and {@code \N} arrives as the two-character string it looks like.
+         */
+        MYSQL_LOAD_DATA
+    }
+
     /** @param crlf terminate rows with {@code \r\n} (RFC 4180's preference) instead of {@code \n} */
     public static Pipe<String[], Chars> format(char delimiter, boolean crlf) {
+        return format(delimiter, crlf, Escaping.RFC4180);
+    }
+
+    /** @param escaping how nulls are written and whether backslash is an escape character */
+    public static Pipe<String[], Chars> format(char delimiter, boolean crlf, Escaping escaping) {
         if (delimiter == '"' || delimiter == '\n' || delimiter == '\r') {
             throw new IllegalArgumentException("illegal delimiter: " + delimiter);
         }
-        return down -> new FormatSink(down, delimiter, crlf);
+        if (escaping == null) {
+            throw new IllegalArgumentException("escaping must not be null");
+        }
+        return down -> new FormatSink(down, delimiter, crlf, escaping);
     }
 
     /** One-shot convenience: format rows to a CSV string in memory. */
@@ -414,10 +451,32 @@ public final class Csv {
         private int len = 0;
         private boolean stopped = false;
 
-        FormatSink(Sink<Chars> down, char delim, boolean crlf) {
+        private final Escaping escaping;
+
+        FormatSink(Sink<Chars> down, char delim, boolean crlf, Escaping escaping) {
             this.down = down;
             this.delim = delim;
             this.crlf = crlf;
+            this.escaping = escaping;
+        }
+
+        /** Writes one field's characters, doubling quotes and - for MySQL - backslashes. */
+        private boolean appendEscaped(String fieldValue, boolean quoted) throws IOException {
+            for (int k = 0; k < fieldValue.length(); k++) {
+                char ch = fieldValue.charAt(k);
+                if (quoted && ch == '"' && !append('"')) {
+                    return false;
+                }
+                // ESCAPED BY '\\' makes backslash meaningful to MySQL everywhere in the field,
+                // enclosed or not - an un-doubled one silently eats the character after it.
+                if (escaping == Escaping.MYSQL_LOAD_DATA && ch == '\\' && !append('\\')) {
+                    return false;
+                }
+                if (!append(ch)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         @Override
@@ -429,29 +488,30 @@ public final class Csv {
                 if (i > 0 && !append(delim)) {
                     return false;
                 }
-                String fieldValue = row[i] == null ? "" : row[i];
-                if (needsQuoting(fieldValue)) {
-                    if (!append('"')) {
+
+                if (row[i] == null) {
+                    // \N and the bare field are both unquoted on purpose: MySQL reads "\N" as the
+                    // literal string, and Postgres reads "" as the empty string, not NULL.
+                    if (escaping == Escaping.MYSQL_LOAD_DATA && (!append('\\') || !append('N'))) {
                         return false;
                     }
-                    for (int k = 0; k < fieldValue.length(); k++) {
-                        char ch = fieldValue.charAt(k);
-                        if (ch == '"' && !append('"')) {
-                            return false;
-                        }
-                        if (!append(ch)) {
-                            return false;
-                        }
-                    }
-                    if (!append('"')) {
-                        return false;
-                    }
-                } else {
-                    for (int k = 0; k < fieldValue.length(); k++) {
-                        if (!append(fieldValue.charAt(k))) {
-                            return false;
-                        }
-                    }
+                    continue;
+                }
+
+                String fieldValue = row[i];
+                // Postgres tells null from empty by the quotes alone, so an empty string must carry
+                // them even though RFC 4180 would not bother.
+                boolean quoted = needsQuoting(fieldValue)
+                        || (escaping == Escaping.POSTGRES_COPY && fieldValue.isEmpty());
+
+                if (quoted && !append('"')) {
+                    return false;
+                }
+                if (!appendEscaped(fieldValue, quoted)) {
+                    return false;
+                }
+                if (quoted && !append('"')) {
+                    return false;
                 }
             }
             if (crlf && !append('\r')) {
