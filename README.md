@@ -592,5 +592,7 @@ Roadmap (all additive): zstd stage, decode-into-`MemorySegment` sinks,
 Vector API scan stages, parallel segment scanning, Kafka/AMQP payload
 serializers, `fusio-spring` message-converter metrics.
 
-1.0.0 publishes to Maven Central after real-application interop validation
-(see `docs/RELEASING.md` for the gate).
+2.0.0 publishes to Maven Central once the release gate in `docs/RELEASING.md`
+is met: a green CI matrix on the release commit, the JDBC integration tests
+against real MySQL and Postgres, and a consumer smoke test. 1.1.1 stays on
+Central for consumers that are already on it and still build with Java 25.
