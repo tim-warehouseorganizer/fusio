@@ -1,0 +1,2 @@
+dev.flamelens.fusio.spring.FusioAutoConfiguration
+dev.flamelens.fusio.spring.FusioRestTemplateAutoConfiguration

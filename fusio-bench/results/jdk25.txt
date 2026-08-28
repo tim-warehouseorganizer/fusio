@@ -1,0 +1,778 @@
+# fusio portable benchmarks
+# label:   jdk25
+# date:    2026-08-21T22:58:57Z
+# java:    openjdk version "25.0.4" 2026-07-21 LTS OpenJDK Runtime Environment Temurin-25.0.4+7 (build 25.0.4+7-LTS) OpenJDK 64-Bit Server VM Temurin-25.0.4+7 (build 25.0.4+7-LTS, mixed mode, sharing) 
+# os:      Linux 6.6.87.2-microsoft-standard-WSL2 aarch64
+# cpu:     Qualcomm Snapdragon X (X126100, Oryon) — Docker Desktop linux/arm64
+# cpus:    8
+# jmh:     -e JdbcBench -e MmapBench -e SegmentBench
+# jvmArgs: -Xms1g -Xmx1g
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.CsvBench.fusio
+
+# Run progress: 0.00% complete, ETA 00:03:00
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 60.869 ms/op
+# Warmup Iteration   2: 43.087 ms/op
+# Warmup Iteration   3: 42.406 ms/op
+# Warmup Iteration   4: 43.171 ms/op
+Iteration   1: 42.260 ms/op
+Iteration   2: 42.380 ms/op
+Iteration   3: 42.298 ms/op
+Iteration   4: 42.501 ms/op
+Iteration   5: 42.192 ms/op
+
+
+Result "dev.fusio.bench.CsvBench.fusio":
+  42.326 ±(99.9%) 0.458 ms/op [Average]
+  (min, avg, max) = (42.192, 42.326, 42.501), stdev = 0.119
+  CI (99.9%): [41.868, 42.784] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.CsvBench.jacksonCsv
+
+# Run progress: 5.00% complete, ETA 00:03:02
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 79.501 ms/op
+# Warmup Iteration   2: 51.951 ms/op
+# Warmup Iteration   3: 51.637 ms/op
+# Warmup Iteration   4: 51.503 ms/op
+Iteration   1: 51.165 ms/op
+Iteration   2: 51.402 ms/op
+Iteration   3: 51.724 ms/op
+Iteration   4: 51.201 ms/op
+Iteration   5: 51.603 ms/op
+
+
+Result "dev.fusio.bench.CsvBench.jacksonCsv":
+  51.419 ±(99.9%) 0.942 ms/op [Average]
+  (min, avg, max) = (51.165, 51.419, 51.724), stdev = 0.245
+  CI (99.9%): [50.477, 52.361] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.CsvBench.opencsv
+
+# Run progress: 10.00% complete, ETA 00:02:53
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 152.191 ms/op
+# Warmup Iteration   2: 112.797 ms/op
+# Warmup Iteration   3: 111.955 ms/op
+# Warmup Iteration   4: 111.185 ms/op
+Iteration   1: 113.787 ms/op
+Iteration   2: 116.327 ms/op
+Iteration   3: 112.070 ms/op
+Iteration   4: 111.605 ms/op
+Iteration   5: 111.719 ms/op
+
+
+Result "dev.fusio.bench.CsvBench.opencsv":
+  113.101 ±(99.9%) 7.723 ms/op [Average]
+  (min, avg, max) = (111.605, 113.101, 116.327), stdev = 2.006
+  CI (99.9%): [105.379, 120.824] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.decoratorReadLine
+
+# Run progress: 15.00% complete, ETA 00:02:43
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 48.605 ms/op
+# Warmup Iteration   2: 42.472 ms/op
+# Warmup Iteration   3: 40.547 ms/op
+# Warmup Iteration   4: 40.137 ms/op
+Iteration   1: 40.159 ms/op
+Iteration   2: 40.335 ms/op
+Iteration   3: 40.549 ms/op
+Iteration   4: 40.348 ms/op
+Iteration   5: 40.057 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.decoratorReadLine":
+  40.290 ±(99.9%) 0.731 ms/op [Average]
+  (min, avg, max) = (40.057, 40.290, 40.549), stdev = 0.190
+  CI (99.9%): [39.558, 41.021] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioByteLineViews
+
+# Run progress: 20.00% complete, ETA 00:02:33
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 12.005 ms/op
+# Warmup Iteration   2: 11.641 ms/op
+# Warmup Iteration   3: 11.652 ms/op
+# Warmup Iteration   4: 11.728 ms/op
+Iteration   1: 11.600 ms/op
+Iteration   2: 11.653 ms/op
+Iteration   3: 11.707 ms/op
+Iteration   4: 11.752 ms/op
+Iteration   5: 11.742 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioByteLineViews":
+  11.691 ±(99.9%) 0.246 ms/op [Average]
+  (min, avg, max) = (11.600, 11.691, 11.752), stdev = 0.064
+  CI (99.9%): [11.445, 11.937] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioByteScan
+
+# Run progress: 25.00% complete, ETA 00:02:23
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 6.865 ms/op
+# Warmup Iteration   2: 6.809 ms/op
+# Warmup Iteration   3: 6.840 ms/op
+# Warmup Iteration   4: 6.873 ms/op
+Iteration   1: 6.812 ms/op
+Iteration   2: 6.823 ms/op
+Iteration   3: 6.809 ms/op
+Iteration   4: 6.875 ms/op
+Iteration   5: 6.889 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioByteScan":
+  6.842 ±(99.9%) 0.145 ms/op [Average]
+  (min, avg, max) = (6.809, 6.842, 6.889), stdev = 0.038
+  CI (99.9%): [6.697, 6.986] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioCharScan
+
+# Run progress: 30.00% complete, ETA 00:02:13
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 31.314 ms/op
+# Warmup Iteration   2: 30.675 ms/op
+# Warmup Iteration   3: 31.307 ms/op
+# Warmup Iteration   4: 30.673 ms/op
+Iteration   1: 30.688 ms/op
+Iteration   2: 30.722 ms/op
+Iteration   3: 30.692 ms/op
+Iteration   4: 30.866 ms/op
+Iteration   5: 30.827 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioCharScan":
+  30.759 ±(99.9%) 0.316 ms/op [Average]
+  (min, avg, max) = (30.688, 30.759, 30.866), stdev = 0.082
+  CI (99.9%): [30.443, 31.075] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioLineViews
+
+# Run progress: 35.00% complete, ETA 00:02:03
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 40.086 ms/op
+# Warmup Iteration   2: 38.810 ms/op
+# Warmup Iteration   3: 38.554 ms/op
+# Warmup Iteration   4: 38.601 ms/op
+Iteration   1: 38.722 ms/op
+Iteration   2: 38.853 ms/op
+Iteration   3: 38.571 ms/op
+Iteration   4: 38.656 ms/op
+Iteration   5: 38.957 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioLineViews":
+  38.752 ±(99.9%) 0.594 ms/op [Average]
+  (min, avg, max) = (38.571, 38.752, 38.957), stdev = 0.154
+  CI (99.9%): [38.157, 39.346] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioLines
+
+# Run progress: 40.00% complete, ETA 00:01:53
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 56.512 ms/op
+# Warmup Iteration   2: 42.300 ms/op
+# Warmup Iteration   3: 42.669 ms/op
+# Warmup Iteration   4: 41.035 ms/op
+Iteration   1: 40.476 ms/op
+Iteration   2: 40.694 ms/op
+Iteration   3: 40.460 ms/op
+Iteration   4: 40.284 ms/op
+Iteration   5: 40.572 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioLines":
+  40.497 ±(99.9%) 0.583 ms/op [Average]
+  (min, avg, max) = (40.284, 40.497, 40.694), stdev = 0.151
+  CI (99.9%): [39.914, 41.080] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.GzipBench.decoratorGzipReadLine
+
+# Run progress: 45.00% complete, ETA 00:01:44
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 79.515 ms/op
+# Warmup Iteration   2: 70.568 ms/op
+# Warmup Iteration   3: 73.297 ms/op
+# Warmup Iteration   4: 68.172 ms/op
+Iteration   1: 69.608 ms/op
+Iteration   2: 70.118 ms/op
+Iteration   3: 68.129 ms/op
+Iteration   4: 68.232 ms/op
+Iteration   5: 68.652 ms/op
+
+
+Result "dev.fusio.bench.GzipBench.decoratorGzipReadLine":
+  68.948 ±(99.9%) 3.377 ms/op [Average]
+  (min, avg, max) = (68.129, 68.948, 70.118), stdev = 0.877
+  CI (99.9%): [65.570, 72.325] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.GzipBench.fusioGzipLineViews
+
+# Run progress: 50.00% complete, ETA 00:01:35
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 64.189 ms/op
+# Warmup Iteration   2: 63.781 ms/op
+# Warmup Iteration   3: 63.582 ms/op
+# Warmup Iteration   4: 63.320 ms/op
+Iteration   1: 63.514 ms/op
+Iteration   2: 63.699 ms/op
+Iteration   3: 63.580 ms/op
+Iteration   4: 63.556 ms/op
+Iteration   5: 63.721 ms/op
+
+
+Result "dev.fusio.bench.GzipBench.fusioGzipLineViews":
+  63.614 ±(99.9%) 0.350 ms/op [Average]
+  (min, avg, max) = (63.514, 63.614, 63.721), stdev = 0.091
+  CI (99.9%): [63.264, 63.964] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.GzipBench.fusioGzipLines
+
+# Run progress: 55.00% complete, ETA 00:01:26
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 73.962 ms/op
+# Warmup Iteration   2: 69.881 ms/op
+# Warmup Iteration   3: 66.255 ms/op
+# Warmup Iteration   4: 71.671 ms/op
+Iteration   1: 65.099 ms/op
+Iteration   2: 66.196 ms/op
+Iteration   3: 64.980 ms/op
+Iteration   4: 64.496 ms/op
+Iteration   5: 64.985 ms/op
+
+
+Result "dev.fusio.bench.GzipBench.fusioGzipLines":
+  65.151 ±(99.9%) 2.421 ms/op [Average]
+  (min, avg, max) = (64.496, 65.151, 66.196), stdev = 0.629
+  CI (99.9%): [62.731, 67.572] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.LockBench.jdkBufferedPerByte
+
+# Run progress: 60.00% complete, ETA 00:01:17
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 106.111 ms/op
+# Warmup Iteration   2: 104.183 ms/op
+# Warmup Iteration   3: 104.078 ms/op
+Iteration   1: 103.589 ms/op
+Iteration   2: 103.224 ms/op
+Iteration   3: 103.686 ms/op
+Iteration   4: 103.989 ms/op
+Iteration   5: 103.423 ms/op
+
+
+Result "dev.fusio.bench.LockBench.jdkBufferedPerByte":
+  103.582 ±(99.9%) 1.106 ms/op [Average]
+  (min, avg, max) = (103.224, 103.582, 103.989), stdev = 0.287
+  CI (99.9%): [102.477, 104.688] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.LockBench.unsyncBufferedPerByte
+
+# Run progress: 64.44% complete, ETA 00:01:08
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 3.224 ms/op
+# Warmup Iteration   2: 3.203 ms/op
+# Warmup Iteration   3: 3.168 ms/op
+Iteration   1: 3.160 ms/op
+Iteration   2: 3.145 ms/op
+Iteration   3: 3.150 ms/op
+Iteration   4: 3.145 ms/op
+Iteration   5: 3.152 ms/op
+
+
+Result "dev.fusio.bench.LockBench.unsyncBufferedPerByte":
+  3.151 ±(99.9%) 0.024 ms/op [Average]
+  (min, avg, max) = (3.145, 3.151, 3.160), stdev = 0.006
+  CI (99.9%): [3.126, 3.175] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.PerByteBench.byteBufferGetInt
+
+# Run progress: 68.89% complete, ETA 00:00:59
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.522 ms/op
+# Warmup Iteration   2: 1.498 ms/op
+# Warmup Iteration   3: 1.512 ms/op
+Iteration   1: 1.520 ms/op
+Iteration   2: 1.515 ms/op
+Iteration   3: 1.502 ms/op
+Iteration   4: 1.495 ms/op
+Iteration   5: 1.504 ms/op
+
+
+Result "dev.fusio.bench.PerByteBench.byteBufferGetInt":
+  1.507 ±(99.9%) 0.039 ms/op [Average]
+  (min, avg, max) = (1.495, 1.507, 1.520), stdev = 0.010
+  CI (99.9%): [1.468, 1.547] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.PerByteBench.dataInputStreamBufferedReadInt
+
+# Run progress: 73.33% complete, ETA 00:00:51
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 55.804 ms/op
+# Warmup Iteration   2: 55.753 ms/op
+# Warmup Iteration   3: 55.073 ms/op
+Iteration   1: 55.269 ms/op
+Iteration   2: 54.997 ms/op
+Iteration   3: 55.430 ms/op
+Iteration   4: 55.129 ms/op
+Iteration   5: 54.959 ms/op
+
+
+Result "dev.fusio.bench.PerByteBench.dataInputStreamBufferedReadInt":
+  55.157 ±(99.9%) 0.753 ms/op [Average]
+  (min, avg, max) = (54.959, 55.157, 55.430), stdev = 0.196
+  CI (99.9%): [54.404, 55.910] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.PerByteBench.dataInputStreamReadInt
+
+# Run progress: 77.78% complete, ETA 00:00:42
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 15.960 ms/op
+# Warmup Iteration   2: 14.863 ms/op
+# Warmup Iteration   3: 14.821 ms/op
+Iteration   1: 14.737 ms/op
+Iteration   2: 14.788 ms/op
+Iteration   3: 14.862 ms/op
+Iteration   4: 14.860 ms/op
+Iteration   5: 14.969 ms/op
+
+
+Result "dev.fusio.bench.PerByteBench.dataInputStreamReadInt":
+  14.843 ±(99.9%) 0.338 ms/op [Average]
+  (min, avg, max) = (14.737, 14.843, 14.969), stdev = 0.088
+  CI (99.9%): [14.505, 15.181] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.decoratorReadLine
+
+# Run progress: 82.22% complete, ETA 00:00:34
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 51.249 ms/op
+# Warmup Iteration   2: 43.053 ms/op
+# Warmup Iteration   3: 40.710 ms/op
+Iteration   1: 40.380 ms/op
+Iteration   2: 40.737 ms/op
+Iteration   3: 40.491 ms/op
+Iteration   4: 40.529 ms/op
+Iteration   5: 40.327 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.decoratorReadLine":
+  40.493 ±(99.9%) 0.612 ms/op [Average]
+  (min, avg, max) = (40.327, 40.493, 40.737), stdev = 0.159
+  CI (99.9%): [39.881, 41.105] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.decoratorTripleBuffer
+
+# Run progress: 86.67% complete, ETA 00:00:25
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 49.609 ms/op
+# Warmup Iteration   2: 44.064 ms/op
+# Warmup Iteration   3: 41.391 ms/op
+Iteration   1: 40.780 ms/op
+Iteration   2: 41.241 ms/op
+Iteration   3: 41.618 ms/op
+Iteration   4: 40.957 ms/op
+Iteration   5: 40.862 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.decoratorTripleBuffer":
+  41.092 ±(99.9%) 1.316 ms/op [Average]
+  (min, avg, max) = (40.780, 41.092, 41.618), stdev = 0.342
+  CI (99.9%): [39.776, 42.408] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.fusedByteScan
+
+# Run progress: 91.11% complete, ETA 00:00:17
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 7.394 ms/op
+# Warmup Iteration   2: 6.873 ms/op
+# Warmup Iteration   3: 6.831 ms/op
+Iteration   1: 6.853 ms/op
+Iteration   2: 6.821 ms/op
+Iteration   3: 6.823 ms/op
+Iteration   4: 6.822 ms/op
+Iteration   5: 6.870 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.fusedByteScan":
+  6.838 ±(99.9%) 0.087 ms/op [Average]
+  (min, avg, max) = (6.821, 6.838, 6.870), stdev = 0.022
+  CI (99.9%): [6.751, 6.924] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4, OpenJDK 64-Bit Server VM, 25.0.4+7-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.fusedDecodeLines
+
+# Run progress: 95.56% complete, ETA 00:00:08
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/bench/benchmarks-portable.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 44.591 ms/op
+# Warmup Iteration   2: 30.767 ms/op
+# Warmup Iteration   3: 30.977 ms/op
+Iteration   1: 31.019 ms/op
+Iteration   2: 31.008 ms/op
+Iteration   3: 30.661 ms/op
+Iteration   4: 30.757 ms/op
+Iteration   5: 30.788 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.fusedDecodeLines":
+  30.847 ±(99.9%) 0.613 ms/op [Average]
+  (min, avg, max) = (30.661, 30.847, 31.019), stdev = 0.159
+  CI (99.9%): [30.234, 31.460] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:03:11
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                                    Mode  Cnt    Score   Error  Units
+CsvBench.fusio                               avgt    5   42.326 ± 0.458  ms/op
+CsvBench.jacksonCsv                          avgt    5   51.419 ± 0.942  ms/op
+CsvBench.opencsv                             avgt    5  113.101 ± 7.723  ms/op
+FusioApiBench.decoratorReadLine              avgt    5   40.290 ± 0.731  ms/op
+FusioApiBench.fusioByteLineViews             avgt    5   11.691 ± 0.246  ms/op
+FusioApiBench.fusioByteScan                  avgt    5    6.842 ± 0.145  ms/op
+FusioApiBench.fusioCharScan                  avgt    5   30.759 ± 0.316  ms/op
+FusioApiBench.fusioLineViews                 avgt    5   38.752 ± 0.594  ms/op
+FusioApiBench.fusioLines                     avgt    5   40.497 ± 0.583  ms/op
+GzipBench.decoratorGzipReadLine              avgt    5   68.948 ± 3.377  ms/op
+GzipBench.fusioGzipLineViews                 avgt    5   63.614 ± 0.350  ms/op
+GzipBench.fusioGzipLines                     avgt    5   65.151 ± 2.421  ms/op
+LockBench.jdkBufferedPerByte                 avgt    5  103.582 ± 1.106  ms/op
+LockBench.unsyncBufferedPerByte              avgt    5    3.151 ± 0.024  ms/op
+PerByteBench.byteBufferGetInt                avgt    5    1.507 ± 0.039  ms/op
+PerByteBench.dataInputStreamBufferedReadInt  avgt    5   55.157 ± 0.753  ms/op
+PerByteBench.dataInputStreamReadInt          avgt    5   14.843 ± 0.338  ms/op
+TextPipelineBench.decoratorReadLine          avgt    5   40.493 ± 0.612  ms/op
+TextPipelineBench.decoratorTripleBuffer      avgt    5   41.092 ± 1.316  ms/op
+TextPipelineBench.fusedByteScan              avgt    5    6.838 ± 0.087  ms/op
+TextPipelineBench.fusedDecodeLines           avgt    5   30.847 ± 0.613  ms/op
+
+Benchmark result is saved to /results/jdk25.json

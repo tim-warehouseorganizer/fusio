@@ -1,0 +1,690 @@
+# fusio portable benchmarks
+# label:   jdk17
+# date:    2026-08-21T22:52:30Z
+# java:    openjdk version "17.0.20" 2026-07-21 OpenJDK Runtime Environment Temurin-17.0.20+8 (build 17.0.20+8) OpenJDK 64-Bit Server VM Temurin-17.0.20+8 (build 17.0.20+8, mixed mode, sharing) 
+# os:      Linux 6.6.87.2-microsoft-standard-WSL2 aarch64
+# cpu:     Qualcomm Snapdragon X (X126100, Oryon) — Docker Desktop linux/arm64
+# cpus:    8
+# jmh:     -e JdbcBench -e MmapBench -e SegmentBench
+# jvmArgs: -Xms1g -Xmx1g
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.CsvBench.fusio
+
+# Run progress: 0.00% complete, ETA 00:03:00
+# Fork: 1 of 1
+# Warmup Iteration   1: 102.281 ms/op
+# Warmup Iteration   2: 42.687 ms/op
+# Warmup Iteration   3: 43.079 ms/op
+# Warmup Iteration   4: 43.050 ms/op
+Iteration   1: 42.889 ms/op
+Iteration   2: 42.904 ms/op
+Iteration   3: 42.721 ms/op
+Iteration   4: 42.650 ms/op
+Iteration   5: 42.481 ms/op
+
+
+Result "dev.fusio.bench.CsvBench.fusio":
+  42.729 ±(99.9%) 0.678 ms/op [Average]
+  (min, avg, max) = (42.481, 42.729, 42.904), stdev = 0.176
+  CI (99.9%): [42.051, 43.408] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.CsvBench.jacksonCsv
+
+# Run progress: 5.00% complete, ETA 00:03:02
+# Fork: 1 of 1
+# Warmup Iteration   1: 78.241 ms/op
+# Warmup Iteration   2: 51.179 ms/op
+# Warmup Iteration   3: 52.449 ms/op
+# Warmup Iteration   4: 52.082 ms/op
+Iteration   1: 52.117 ms/op
+Iteration   2: 51.839 ms/op
+Iteration   3: 51.004 ms/op
+Iteration   4: 51.412 ms/op
+Iteration   5: 51.162 ms/op
+
+
+Result "dev.fusio.bench.CsvBench.jacksonCsv":
+  51.507 ±(99.9%) 1.788 ms/op [Average]
+  (min, avg, max) = (51.004, 51.507, 52.117), stdev = 0.464
+  CI (99.9%): [49.719, 53.295] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.CsvBench.opencsv
+
+# Run progress: 10.00% complete, ETA 00:02:53
+# Fork: 1 of 1
+# Warmup Iteration   1: 129.943 ms/op
+# Warmup Iteration   2: 91.442 ms/op
+# Warmup Iteration   3: 91.529 ms/op
+# Warmup Iteration   4: 91.614 ms/op
+Iteration   1: 91.642 ms/op
+Iteration   2: 90.546 ms/op
+Iteration   3: 91.025 ms/op
+Iteration   4: 91.050 ms/op
+Iteration   5: 90.583 ms/op
+
+
+Result "dev.fusio.bench.CsvBench.opencsv":
+  90.969 ±(99.9%) 1.712 ms/op [Average]
+  (min, avg, max) = (90.546, 90.969, 91.642), stdev = 0.445
+  CI (99.9%): [89.258, 92.681] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.decoratorReadLine
+
+# Run progress: 15.00% complete, ETA 00:02:43
+# Fork: 1 of 1
+# Warmup Iteration   1: 70.442 ms/op
+# Warmup Iteration   2: 69.872 ms/op
+# Warmup Iteration   3: 59.846 ms/op
+# Warmup Iteration   4: 59.879 ms/op
+Iteration   1: 60.557 ms/op
+Iteration   2: 60.367 ms/op
+Iteration   3: 60.461 ms/op
+Iteration   4: 60.044 ms/op
+Iteration   5: 59.955 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.decoratorReadLine":
+  60.277 ±(99.9%) 1.016 ms/op [Average]
+  (min, avg, max) = (59.955, 60.277, 60.557), stdev = 0.264
+  CI (99.9%): [59.260, 61.293] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioByteLineViews
+
+# Run progress: 20.00% complete, ETA 00:02:33
+# Fork: 1 of 1
+# Warmup Iteration   1: 13.911 ms/op
+# Warmup Iteration   2: 12.635 ms/op
+# Warmup Iteration   3: 11.752 ms/op
+# Warmup Iteration   4: 11.844 ms/op
+Iteration   1: 11.932 ms/op
+Iteration   2: 12.025 ms/op
+Iteration   3: 12.022 ms/op
+Iteration   4: 11.962 ms/op
+Iteration   5: 11.936 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioByteLineViews":
+  11.976 ±(99.9%) 0.175 ms/op [Average]
+  (min, avg, max) = (11.932, 11.976, 12.025), stdev = 0.046
+  CI (99.9%): [11.800, 12.151] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioByteScan
+
+# Run progress: 25.00% complete, ETA 00:02:23
+# Fork: 1 of 1
+# Warmup Iteration   1: 6.910 ms/op
+# Warmup Iteration   2: 6.851 ms/op
+# Warmup Iteration   3: 6.831 ms/op
+# Warmup Iteration   4: 6.831 ms/op
+Iteration   1: 6.839 ms/op
+Iteration   2: 6.821 ms/op
+Iteration   3: 6.900 ms/op
+Iteration   4: 6.839 ms/op
+Iteration   5: 6.876 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioByteScan":
+  6.855 ±(99.9%) 0.123 ms/op [Average]
+  (min, avg, max) = (6.821, 6.855, 6.900), stdev = 0.032
+  CI (99.9%): [6.731, 6.978] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioCharScan
+
+# Run progress: 30.00% complete, ETA 00:02:13
+# Fork: 1 of 1
+# Warmup Iteration   1: 47.583 ms/op
+# Warmup Iteration   2: 46.383 ms/op
+# Warmup Iteration   3: 46.187 ms/op
+# Warmup Iteration   4: 46.388 ms/op
+Iteration   1: 46.441 ms/op
+Iteration   2: 46.295 ms/op
+Iteration   3: 46.530 ms/op
+Iteration   4: 46.140 ms/op
+Iteration   5: 46.942 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioCharScan":
+  46.470 ±(99.9%) 1.165 ms/op [Average]
+  (min, avg, max) = (46.140, 46.470, 46.942), stdev = 0.303
+  CI (99.9%): [45.304, 47.635] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioLineViews
+
+# Run progress: 35.00% complete, ETA 00:02:03
+# Fork: 1 of 1
+# Warmup Iteration   1: 54.926 ms/op
+# Warmup Iteration   2: 53.093 ms/op
+# Warmup Iteration   3: 53.788 ms/op
+# Warmup Iteration   4: 53.365 ms/op
+Iteration   1: 53.715 ms/op
+Iteration   2: 53.085 ms/op
+Iteration   3: 50.938 ms/op
+Iteration   4: 51.435 ms/op
+Iteration   5: 51.194 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioLineViews":
+  52.073 ±(99.9%) 4.790 ms/op [Average]
+  (min, avg, max) = (50.938, 52.073, 53.715), stdev = 1.244
+  CI (99.9%): [47.283, 56.863] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.FusioApiBench.fusioLines
+
+# Run progress: 40.00% complete, ETA 00:01:54
+# Fork: 1 of 1
+# Warmup Iteration   1: 65.794 ms/op
+# Warmup Iteration   2: 61.260 ms/op
+# Warmup Iteration   3: 56.146 ms/op
+# Warmup Iteration   4: 56.086 ms/op
+Iteration   1: 57.262 ms/op
+Iteration   2: 57.691 ms/op
+Iteration   3: 56.080 ms/op
+Iteration   4: 56.525 ms/op
+Iteration   5: 56.011 ms/op
+
+
+Result "dev.fusio.bench.FusioApiBench.fusioLines":
+  56.714 ±(99.9%) 2.847 ms/op [Average]
+  (min, avg, max) = (56.011, 56.714, 57.691), stdev = 0.739
+  CI (99.9%): [53.867, 59.560] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.GzipBench.decoratorGzipReadLine
+
+# Run progress: 45.00% complete, ETA 00:01:44
+# Fork: 1 of 1
+# Warmup Iteration   1: 97.818 ms/op
+# Warmup Iteration   2: 97.827 ms/op
+# Warmup Iteration   3: 91.548 ms/op
+# Warmup Iteration   4: 87.144 ms/op
+Iteration   1: 87.587 ms/op
+Iteration   2: 88.544 ms/op
+Iteration   3: 87.293 ms/op
+Iteration   4: 88.504 ms/op
+Iteration   5: 87.670 ms/op
+
+
+Result "dev.fusio.bench.GzipBench.decoratorGzipReadLine":
+  87.920 ±(99.9%) 2.193 ms/op [Average]
+  (min, avg, max) = (87.293, 87.920, 88.544), stdev = 0.569
+  CI (99.9%): [85.727, 90.112] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.GzipBench.fusioGzipLineViews
+
+# Run progress: 50.00% complete, ETA 00:01:36
+# Fork: 1 of 1
+# Warmup Iteration   1: 82.376 ms/op
+# Warmup Iteration   2: 80.037 ms/op
+# Warmup Iteration   3: 82.507 ms/op
+# Warmup Iteration   4: 81.581 ms/op
+Iteration   1: 81.453 ms/op
+Iteration   2: 81.487 ms/op
+Iteration   3: 81.401 ms/op
+Iteration   4: 82.075 ms/op
+Iteration   5: 79.183 ms/op
+
+
+Result "dev.fusio.bench.GzipBench.fusioGzipLineViews":
+  81.120 ±(99.9%) 4.300 ms/op [Average]
+  (min, avg, max) = (79.183, 81.120, 82.075), stdev = 1.117
+  CI (99.9%): [76.820, 85.420] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 4 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.GzipBench.fusioGzipLines
+
+# Run progress: 55.00% complete, ETA 00:01:27
+# Fork: 1 of 1
+# Warmup Iteration   1: 92.865 ms/op
+# Warmup Iteration   2: 93.917 ms/op
+# Warmup Iteration   3: 87.205 ms/op
+# Warmup Iteration   4: 83.465 ms/op
+Iteration   1: 83.830 ms/op
+Iteration   2: 83.772 ms/op
+Iteration   3: 83.796 ms/op
+Iteration   4: 85.139 ms/op
+Iteration   5: 84.177 ms/op
+
+
+Result "dev.fusio.bench.GzipBench.fusioGzipLines":
+  84.143 ±(99.9%) 2.237 ms/op [Average]
+  (min, avg, max) = (83.772, 84.143, 85.139), stdev = 0.581
+  CI (99.9%): [81.906, 86.380] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.LockBench.jdkBufferedPerByte
+
+# Run progress: 60.00% complete, ETA 00:01:17
+# Fork: 1 of 1
+# Warmup Iteration   1: 104.256 ms/op
+# Warmup Iteration   2: 104.478 ms/op
+# Warmup Iteration   3: 104.209 ms/op
+Iteration   1: 103.634 ms/op
+Iteration   2: 104.181 ms/op
+Iteration   3: 104.171 ms/op
+Iteration   4: 104.359 ms/op
+Iteration   5: 104.398 ms/op
+
+
+Result "dev.fusio.bench.LockBench.jdkBufferedPerByte":
+  104.149 ±(99.9%) 1.175 ms/op [Average]
+  (min, avg, max) = (103.634, 104.149, 104.398), stdev = 0.305
+  CI (99.9%): [102.973, 105.324] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.LockBench.unsyncBufferedPerByte
+
+# Run progress: 64.44% complete, ETA 00:01:08
+# Fork: 1 of 1
+# Warmup Iteration   1: 3.243 ms/op
+# Warmup Iteration   2: 3.140 ms/op
+# Warmup Iteration   3: 3.166 ms/op
+Iteration   1: 3.153 ms/op
+Iteration   2: 3.175 ms/op
+Iteration   3: 3.135 ms/op
+Iteration   4: 3.154 ms/op
+Iteration   5: 3.158 ms/op
+
+
+Result "dev.fusio.bench.LockBench.unsyncBufferedPerByte":
+  3.155 ±(99.9%) 0.055 ms/op [Average]
+  (min, avg, max) = (3.135, 3.155, 3.175), stdev = 0.014
+  CI (99.9%): [3.100, 3.210] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.PerByteBench.byteBufferGetInt
+
+# Run progress: 68.89% complete, ETA 00:01:00
+# Fork: 1 of 1
+# Warmup Iteration   1: 1.497 ms/op
+# Warmup Iteration   2: 1.478 ms/op
+# Warmup Iteration   3: 1.476 ms/op
+Iteration   1: 1.475 ms/op
+Iteration   2: 1.485 ms/op
+Iteration   3: 1.478 ms/op
+Iteration   4: 1.528 ms/op
+Iteration   5: 1.502 ms/op
+
+
+Result "dev.fusio.bench.PerByteBench.byteBufferGetInt":
+  1.494 ±(99.9%) 0.084 ms/op [Average]
+  (min, avg, max) = (1.475, 1.494, 1.528), stdev = 0.022
+  CI (99.9%): [1.409, 1.578] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.PerByteBench.dataInputStreamBufferedReadInt
+
+# Run progress: 73.33% complete, ETA 00:00:51
+# Fork: 1 of 1
+# Warmup Iteration   1: 57.477 ms/op
+# Warmup Iteration   2: 56.391 ms/op
+# Warmup Iteration   3: 56.286 ms/op
+Iteration   1: 55.831 ms/op
+Iteration   2: 55.988 ms/op
+Iteration   3: 55.676 ms/op
+Iteration   4: 56.000 ms/op
+Iteration   5: 55.885 ms/op
+
+
+Result "dev.fusio.bench.PerByteBench.dataInputStreamBufferedReadInt":
+  55.876 ±(99.9%) 0.510 ms/op [Average]
+  (min, avg, max) = (55.676, 55.876, 56.000), stdev = 0.133
+  CI (99.9%): [55.365, 56.386] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.PerByteBench.dataInputStreamReadInt
+
+# Run progress: 77.78% complete, ETA 00:00:42
+# Fork: 1 of 1
+# Warmup Iteration   1: 7.830 ms/op
+# Warmup Iteration   2: 7.178 ms/op
+# Warmup Iteration   3: 7.050 ms/op
+Iteration   1: 7.044 ms/op
+Iteration   2: 7.072 ms/op
+Iteration   3: 7.060 ms/op
+Iteration   4: 7.041 ms/op
+Iteration   5: 7.205 ms/op
+
+
+Result "dev.fusio.bench.PerByteBench.dataInputStreamReadInt":
+  7.084 ±(99.9%) 0.264 ms/op [Average]
+  (min, avg, max) = (7.041, 7.084, 7.205), stdev = 0.069
+  CI (99.9%): [6.820, 7.349] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.decoratorReadLine
+
+# Run progress: 82.22% complete, ETA 00:00:34
+# Fork: 1 of 1
+# Warmup Iteration   1: 72.174 ms/op
+# Warmup Iteration   2: 70.494 ms/op
+# Warmup Iteration   3: 59.523 ms/op
+Iteration   1: 59.579 ms/op
+Iteration   2: 59.789 ms/op
+Iteration   3: 59.902 ms/op
+Iteration   4: 59.843 ms/op
+Iteration   5: 59.028 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.decoratorReadLine":
+  59.628 ±(99.9%) 1.376 ms/op [Average]
+  (min, avg, max) = (59.028, 59.628, 59.902), stdev = 0.357
+  CI (99.9%): [58.253, 61.004] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.decoratorTripleBuffer
+
+# Run progress: 86.67% complete, ETA 00:00:25
+# Fork: 1 of 1
+# Warmup Iteration   1: 70.930 ms/op
+# Warmup Iteration   2: 66.703 ms/op
+# Warmup Iteration   3: 59.846 ms/op
+Iteration   1: 59.464 ms/op
+Iteration   2: 59.964 ms/op
+Iteration   3: 60.455 ms/op
+Iteration   4: 60.168 ms/op
+Iteration   5: 60.774 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.decoratorTripleBuffer":
+  60.165 ±(99.9%) 1.913 ms/op [Average]
+  (min, avg, max) = (59.464, 60.165, 60.774), stdev = 0.497
+  CI (99.9%): [58.252, 62.078] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.fusedByteScan
+
+# Run progress: 91.11% complete, ETA 00:00:17
+# Fork: 1 of 1
+# Warmup Iteration   1: 7.254 ms/op
+# Warmup Iteration   2: 6.778 ms/op
+# Warmup Iteration   3: 6.791 ms/op
+Iteration   1: 6.765 ms/op
+Iteration   2: 6.750 ms/op
+Iteration   3: 6.767 ms/op
+Iteration   4: 6.785 ms/op
+Iteration   5: 6.822 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.fusedByteScan":
+  6.778 ±(99.9%) 0.107 ms/op [Average]
+  (min, avg, max) = (6.750, 6.778, 6.822), stdev = 0.028
+  CI (99.9%): [6.671, 6.885] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.20, OpenJDK 64-Bit Server VM, 17.0.20+8
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: -Xms1g -Xmx1g
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: dev.fusio.bench.TextPipelineBench.fusedDecodeLines
+
+# Run progress: 95.56% complete, ETA 00:00:08
+# Fork: 1 of 1
+# Warmup Iteration   1: 77.829 ms/op
+# Warmup Iteration   2: 54.526 ms/op
+# Warmup Iteration   3: 53.892 ms/op
+Iteration   1: 53.433 ms/op
+Iteration   2: 53.665 ms/op
+Iteration   3: 53.617 ms/op
+Iteration   4: 53.636 ms/op
+Iteration   5: 53.586 ms/op
+
+
+Result "dev.fusio.bench.TextPipelineBench.fusedDecodeLines":
+  53.587 ±(99.9%) 0.350 ms/op [Average]
+  (min, avg, max) = (53.433, 53.587, 53.665), stdev = 0.091
+  CI (99.9%): [53.237, 53.937] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:03:11
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                                    Mode  Cnt    Score   Error  Units
+CsvBench.fusio                               avgt    5   42.729 ± 0.678  ms/op
+CsvBench.jacksonCsv                          avgt    5   51.507 ± 1.788  ms/op
+CsvBench.opencsv                             avgt    5   90.969 ± 1.712  ms/op
+FusioApiBench.decoratorReadLine              avgt    5   60.277 ± 1.016  ms/op
+FusioApiBench.fusioByteLineViews             avgt    5   11.976 ± 0.175  ms/op
+FusioApiBench.fusioByteScan                  avgt    5    6.855 ± 0.123  ms/op
+FusioApiBench.fusioCharScan                  avgt    5   46.470 ± 1.165  ms/op
+FusioApiBench.fusioLineViews                 avgt    5   52.073 ± 4.790  ms/op
+FusioApiBench.fusioLines                     avgt    5   56.714 ± 2.847  ms/op
+GzipBench.decoratorGzipReadLine              avgt    5   87.920 ± 2.193  ms/op
+GzipBench.fusioGzipLineViews                 avgt    5   81.120 ± 4.300  ms/op
+GzipBench.fusioGzipLines                     avgt    5   84.143 ± 2.237  ms/op
+LockBench.jdkBufferedPerByte                 avgt    5  104.149 ± 1.175  ms/op
+LockBench.unsyncBufferedPerByte              avgt    5    3.155 ± 0.055  ms/op
+PerByteBench.byteBufferGetInt                avgt    5    1.494 ± 0.084  ms/op
+PerByteBench.dataInputStreamBufferedReadInt  avgt    5   55.876 ± 0.510  ms/op
+PerByteBench.dataInputStreamReadInt          avgt    5    7.084 ± 0.264  ms/op
+TextPipelineBench.decoratorReadLine          avgt    5   59.628 ± 1.376  ms/op
+TextPipelineBench.decoratorTripleBuffer      avgt    5   60.165 ± 1.913  ms/op
+TextPipelineBench.fusedByteScan              avgt    5    6.778 ± 0.107  ms/op
+TextPipelineBench.fusedDecodeLines           avgt    5   53.587 ± 0.350  ms/op
+
+Benchmark result is saved to /results/jdk17.json

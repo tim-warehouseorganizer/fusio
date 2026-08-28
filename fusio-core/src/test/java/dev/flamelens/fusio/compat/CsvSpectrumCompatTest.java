@@ -1,5 +1,8 @@
 package dev.flamelens.fusio.compat;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.flamelens.fusio.ByteSource;
@@ -73,8 +76,8 @@ class CsvSpectrumCompatTest {
     }
 
     private byte[] resource(String path) throws Exception {
-        try (var in = getClass().getResourceAsStream(path)) {
-            return in.readAllBytes();
+        try (java.io.InputStream in = getClass().getResourceAsStream(path)) {
+            return readAllBytes(in);
         }
     }
 }

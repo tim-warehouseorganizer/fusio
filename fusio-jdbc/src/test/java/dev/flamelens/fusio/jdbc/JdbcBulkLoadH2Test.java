@@ -40,7 +40,7 @@ class JdbcBulkLoadH2Test {
         for (int i = 0; i < 2_503; i++) { // deliberately not a batch multiple
             rows.add(new String[]{"SKU-" + i, "item " + i, String.valueOf(i % 100)});
         }
-        long inserted = JdbcBulkLoad.batchInsert(cn, "items", List.of("sku", "name", "qty"),
+        long inserted = JdbcBulkLoad.batchInsert(cn, "items", java.util.Arrays.asList("sku", "name", "qty"),
                 rows.iterator(), 1000);
         assertEquals(2_503, inserted);
         try (Statement st = cn.createStatement();
@@ -52,11 +52,11 @@ class JdbcBulkLoadH2Test {
 
     @Test
     void specialCharactersSurviveBinding() throws SQLException {
-        List<String[]> rows = List.of(
+        List<String[]> rows = java.util.Arrays.asList(
                 new String[]{"A\"1", "name, with comma", "1"},
                 new String[]{"B\n2", "line\nbreak", "2"},
                 new String[]{"Cé3", "unicode 汉字", "3"});
-        JdbcBulkLoad.batchInsert(cn, "items", List.of("sku", "name", "qty"), rows.iterator(), 2);
+        JdbcBulkLoad.batchInsert(cn, "items", java.util.Arrays.asList("sku", "name", "qty"), rows.iterator(), 2);
         try (Statement st = cn.createStatement();
              ResultSet rs = st.executeQuery("SELECT sku, name FROM items ORDER BY qty")) {
             rs.next();
@@ -72,15 +72,15 @@ class JdbcBulkLoadH2Test {
     @Test
     void rejectsMalformedIdentifiers() {
         assertThrows(IllegalArgumentException.class, () -> JdbcBulkLoad.batchInsert(
-                cn, "items; DROP TABLE items", List.of("sku"), List.<String[]>of().iterator(), 10));
+                cn, "items; DROP TABLE items", java.util.Arrays.asList("sku"), java.util.Collections.<String[]>emptyList().iterator(), 10));
         assertThrows(IllegalArgumentException.class, () -> JdbcBulkLoad.batchInsert(
-                cn, "items", List.of("sku, qty"), List.<String[]>of().iterator(), 10));
+                cn, "items", java.util.Arrays.asList("sku, qty"), java.util.Collections.<String[]>emptyList().iterator(), 10));
     }
 
     @Test
     void rejectsWidthMismatch() {
         assertThrows(SQLException.class, () -> JdbcBulkLoad.batchInsert(
-                cn, "items", List.of("sku", "name", "qty"),
-                List.<String[]>of(new String[]{"only-one"}).iterator(), 10));
+                cn, "items", java.util.Arrays.asList("sku", "name", "qty"),
+                java.util.Arrays.<String[]>asList(new String[]{"only-one"}).iterator(), 10));
     }
 }

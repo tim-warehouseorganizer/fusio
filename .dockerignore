@@ -1,0 +1,12 @@
+**/target
+.git
+.github
+jfr
+*.txt
+*.json
+docs
+fusio-bench/results
+fusio-spring-boot-starter/src
+fusio-spring-boot3-starter/src
+fusio-spring-boot2-starter/src
+fusio-ffm/src

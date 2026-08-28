@@ -1,7 +1,11 @@
 package dev.flamelens.fusio.interop;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.RFC4180ParserBuilder;
 import dev.flamelens.fusio.ByteSource;
@@ -69,7 +73,7 @@ class InteropTest {
         for (String[] row : new FusioCsvReader(new StringReader(csv))) {
             got.add(row[0]);
         }
-        assertEquals(List.of("x", "y", "z"), got);
+        assertEquals(java.util.Arrays.asList("x", "y", "z"), got);
     }
 
     /** Differential: FusioCsvReader and opencsv's RFC4180 CSVReader agree on generated data. */
@@ -96,7 +100,7 @@ class InteropTest {
         String text = csv.toString();
 
         List<String[]> viaOpencsv = new ArrayList<>();
-        try (var reader = new CSVReaderBuilder(new StringReader(text))
+        try (CSVReader reader = new CSVReaderBuilder(new StringReader(text))
                 .withCSVParser(new RFC4180ParserBuilder().build())
                 .build()) {
             String[] row;
@@ -138,11 +142,11 @@ class InteropTest {
 
     @Test
     void gunzipPipelineAsInputStream() throws IOException {
-        byte[] plain = "stream me through a fused pipeline\n".repeat(10_000)
+        byte[] plain = repeat("stream me through a fused pipeline\n", 10_000)
                 .getBytes(StandardCharsets.UTF_8);
         try (InputStream in = new PipeInputStream(
                 new ByteArrayInputStream(gzip(plain)), Gzip.gunzip())) {
-            assertArrayEquals(plain, in.readAllBytes());
+            assertArrayEquals(plain, readAllBytes(in));
         }
     }
 
@@ -176,13 +180,13 @@ class InteropTest {
 
     @Test
     void csvInputStreamMatchesCsvText() throws IOException {
-        List<String[]> rows = List.<String[]>of(
+        List<String[]> rows = java.util.Arrays.<String[]>asList(
                 new String[]{"sku", "name"},
                 new String[]{"A,1", "say \"hi\""},
                 new String[]{"B", "multi\nline"});
         byte[] streamed;
         try (CsvInputStream in = new CsvInputStream(rows.iterator())) {
-            streamed = in.readAllBytes();
+            streamed = readAllBytes(in);
         }
         assertArrayEquals(
                 dev.flamelens.fusio.pipes.Csv.text(rows).getBytes(StandardCharsets.UTF_8),
@@ -191,8 +195,8 @@ class InteropTest {
 
     @Test
     void csvInputStreamIsLazy() throws IOException {
-        var pulled = new java.util.concurrent.atomic.AtomicInteger();
-        Iterator<String[]> counting = new Iterator<>() {
+        java.util.concurrent.atomic.AtomicInteger pulled = new java.util.concurrent.atomic.AtomicInteger();
+        Iterator<String[]> counting = new Iterator<String[]>() {
             int i = 0;
 
             @Override
@@ -207,7 +211,7 @@ class InteropTest {
             }
         };
         try (CsvInputStream in = new CsvInputStream(counting)) {
-            in.readNBytes(64); // read a tiny prefix of a million-row source
+            in.read(new byte[64]); // read a tiny prefix of a million-row source (Java 8: no readNBytes)
         }
         // laziness is bounded by the formatter's 16K char buffer (~2-3K short
         // rows), NOT by the source size: memory is O(buffer), never O(rows)

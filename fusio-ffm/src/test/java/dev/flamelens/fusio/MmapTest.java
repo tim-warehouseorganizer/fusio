@@ -64,7 +64,7 @@ class MmapTest {
     @Test
     void byteSourceComposesWithPipes(@TempDir Path dir) throws IOException {
         Path f = dir.resolve("text.txt");
-        Files.writeString(f, "alpha\nbeta\ngamma\n".repeat(1_000), StandardCharsets.UTF_8);
+        Files.write(f, ("alpha\nbeta\ngamma\n".repeat(1_000)).getBytes(StandardCharsets.UTF_8));
         long lines = Mmap.byteSource(f).via(Utf8.decode()).via(Lines.split()).count();
         assertEquals(3_000, lines);
     }

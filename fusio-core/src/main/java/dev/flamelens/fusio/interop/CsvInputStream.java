@@ -31,8 +31,17 @@ public final class CsvInputStream extends InputStream {
     }
 
     public CsvInputStream(Iterator<String[]> rows, char delimiter, boolean crlf) {
+        this(rows, delimiter, crlf, Csv.Escaping.RFC4180);
+    }
+
+    /**
+     * @param escaping how null fields are written. RFC 4180 cannot express null at all, so a bulk
+     *                 loader that needs real nulls must pass the dialect its target expects -
+     *                 {@link Csv.Escaping#MYSQL_LOAD_DATA} or {@link Csv.Escaping#POSTGRES_COPY}.
+     */
+    public CsvInputStream(Iterator<String[]> rows, char delimiter, boolean crlf, Csv.Escaping escaping) {
         this.rows = rows;
-        this.head = Csv.format(delimiter, crlf).then(Utf8.encode()).connect(b -> {
+        this.head = Csv.format(delimiter, crlf, escaping).then(Utf8.encode()).connect(b -> {
             if (b.length > 0) {
                 out.add(Arrays.copyOfRange(b.array, b.offset, b.offset + b.length));
             }

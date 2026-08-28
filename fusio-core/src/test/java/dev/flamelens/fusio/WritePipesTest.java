@@ -1,5 +1,8 @@
 package dev.flamelens.fusio;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import dev.flamelens.fusio.pipes.Csv;
 import dev.flamelens.fusio.pipes.Gzip;
 import dev.flamelens.fusio.pipes.Utf8;
@@ -42,7 +45,7 @@ class WritePipesTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 7, 64})
     void encodeMatchesJdkAtEveryChunkSize(int chunkChars) throws IOException {
-        String text = "ascii é ß 汉字 € emoji 😀🚀 done\n".repeat(50);
+        String text = repeat("ascii é ß 汉字 € emoji 😀🚀 done\n", 50);
         assertArrayEquals(text.getBytes(StandardCharsets.UTF_8), encodeVia(text, chunkChars));
     }
 
@@ -61,7 +64,7 @@ class WritePipesTest {
 
     @Test
     void encodeDecodeRoundTrip() {
-        String text = "état, größe, 汉字, 😀 — mixed\n".repeat(200);
+        String text = repeat("état, größe, 汉字, 😀 — mixed\n", 200);
         byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
         StringBuilder sb = new StringBuilder();
         ByteSource.of(bytes, 13)
@@ -88,7 +91,7 @@ class WritePipesTest {
 
     @Test
     void formatQuotesOnlyWhenNeeded() throws IOException {
-        String csv = formatVia(List.<String[]>of(
+        String csv = formatVia(java.util.Arrays.<String[]>asList(
                 new String[]{"plain", "with,comma", "with\"quote", "multi\nline", null}));
         assertEquals("plain,\"with,comma\",\"with\"\"quote\",\"multi\nline\",\n", csv);
     }
@@ -134,11 +137,11 @@ class WritePipesTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 7, 8192, 1 << 20})
     void jdkGzipInputStreamReadsOurOutput(int chunkSize) throws IOException {
-        byte[] plain = "compress me with a fused stage\n".repeat(3_000)
+        byte[] plain = repeat("compress me with a fused stage\n", 3_000)
                 .getBytes(StandardCharsets.UTF_8);
         try (GZIPInputStream in = new GZIPInputStream(
                 new ByteArrayInputStream(gzipVia(plain, chunkSize)))) {
-            assertArrayEquals(plain, in.readAllBytes());
+            assertArrayEquals(plain, readAllBytes(in));
         }
     }
 
@@ -157,7 +160,7 @@ class WritePipesTest {
     void emptyPayloadGzipsToValidStream() throws IOException {
         byte[] gz = gzipVia(new byte[0], 64);
         try (GZIPInputStream in = new GZIPInputStream(new ByteArrayInputStream(gz))) {
-            assertArrayEquals(new byte[0], in.readAllBytes());
+            assertArrayEquals(new byte[0], readAllBytes(in));
         }
     }
 }

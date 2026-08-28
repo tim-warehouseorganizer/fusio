@@ -1,6 +1,7 @@
 package dev.flamelens.fusio.jdbc;
 
 import dev.flamelens.fusio.interop.CsvInputStream;
+import dev.flamelens.fusio.pipes.Csv;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -29,11 +30,21 @@ import java.util.regex.Pattern;
  * </ul>
  *
  * Values are bound/emitted as strings; the database performs its usual
- * implicit conversion into column types. Null row elements become SQL
- * empty-string via the CSV paths and {@code NULL} via {@code batchInsert} —
- * if that distinction matters for a table, normalize before loading.
- * Identifiers are validated against a conservative pattern; everything else
- * is parameterized or streamed, never concatenated.
+ * implicit conversion into column types. <strong>All three paths write a null
+ * row element as SQL {@code NULL}</strong>, using each target's own null
+ * marker: {@code \N} for MySQL (which requires {@code ESCAPED BY '\\'}) and an
+ * unquoted empty field for Postgres CSV, where a quoted {@code ""} is the empty
+ * string. Identifiers are validated against a conservative pattern; everything
+ * else is parameterized or streamed, never concatenated.
+ *
+ * <p><strong>Changed in 2.0.0.</strong> Through 1.x the CSV paths collapsed null
+ * to an empty string, because {@link Csv} had no way to express null and the
+ * MySQL statement disabled escape processing entirely. That silently wrote
+ * {@code ''} into nullable columns — harmless on a {@code VARCHAR}, a coercion
+ * or an error on a {@code DECIMAL} or {@code DATE}. Callers that worked around
+ * it by pre-converting nulls to {@code ""} will now have those empty strings
+ * written as empty strings, not nulls, which is the distinction they were
+ * previously unable to make.
  */
 public final class JdbcBulkLoad {
 
@@ -83,11 +94,16 @@ public final class JdbcBulkLoad {
         validate(table, columns);
         try (Statement st = connection.createStatement()) {
             com.mysql.cj.jdbc.JdbcStatement mysql = st.unwrap(com.mysql.cj.jdbc.JdbcStatement.class);
-            mysql.setLocalInfileInputStream(new CsvInputStream(rows));
-            // ESCAPED BY '' because RFC 4180 escapes quotes by doubling, not backslashes
+            mysql.setLocalInfileInputStream(
+                    new CsvInputStream(rows, ',', false, Csv.Escaping.MYSQL_LOAD_DATA));
+            // ESCAPED BY '\\' (MySQL's default) is what gives \N its meaning as NULL. It was ''
+            // through 1.x to keep RFC 4180 quote-doubling intact - but MySQL accepts doubled quotes
+            // inside an enclosed field regardless of the escape setting, so that was never the
+            // trade-off it appeared to be; it only cost the ability to express null. The formatter
+            // now doubles literal backslashes so data survives the escape processing.
             String sql = "LOAD DATA LOCAL INFILE 'fusio-stream' INTO TABLE " + table
                     + " CHARACTER SET utf8mb4"
-                    + " FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY ''"
+                    + " FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\\\\'"
                     + " LINES TERMINATED BY '\n'"
                     + " (" + String.join(", ", columns) + ")";
             return st.executeUpdate(sql);
@@ -101,7 +117,10 @@ public final class JdbcBulkLoad {
         org.postgresql.PGConnection pg = connection.unwrap(org.postgresql.PGConnection.class);
         String sql = "COPY " + table + " (" + String.join(", ", columns)
                 + ") FROM STDIN (FORMAT csv)";
-        return pg.getCopyAPI().copyIn(sql, new CsvInputStream(rows));
+        // Postgres CSV reads an unquoted empty field as NULL and a quoted "" as the empty string,
+        // so the dialect alone carries the distinction - no COPY option needed.
+        return pg.getCopyAPI().copyIn(sql,
+                new CsvInputStream(rows, ',', false, Csv.Escaping.POSTGRES_COPY));
     }
 
     private static void validate(String table, List<String> columns) {

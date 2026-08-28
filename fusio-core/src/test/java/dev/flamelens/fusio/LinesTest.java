@@ -56,28 +56,28 @@ class LinesTest {
 
     @Test
     void emptyInputHasNoLines() {
-        assertEquals(List.of(), viaFusio("", 64));
+        assertEquals(java.util.Collections.<String>emptyList(), viaFusio("", 64));
     }
 
     @Test
     void trailingNewlineDoesNotEmitEmptyLastLine() {
-        assertEquals(List.of("a", "b"), viaFusio("a\nb\n", 64));
+        assertEquals(java.util.Arrays.asList("a", "b"), viaFusio("a\nb\n", 64));
     }
 
     @Test
     void missingTrailingNewlineStillEmitsLastLine() {
-        assertEquals(List.of("a", "b"), viaFusio("a\nb", 64));
+        assertEquals(java.util.Arrays.asList("a", "b"), viaFusio("a\nb", 64));
     }
 
     @Test
     void blankLinesArePreserved() {
-        assertEquals(List.of("a", "", "b"), viaFusio("a\n\nb\n", 64));
+        assertEquals(java.util.Arrays.asList("a", "", "b"), viaFusio("a\n\nb\n", 64));
     }
 
     @Test
     void crlfSplitAcrossChunkBoundaryIsOneTerminator() {
         // chunk size 3 puts the boundary between \r and \n
-        assertEquals(List.of("ab", "cd"), viaFusio("ab\r\ncd", 3));
+        assertEquals(java.util.Arrays.asList("ab", "cd"), viaFusio("ab\r\ncd", 3));
     }
 
     @ParameterizedTest

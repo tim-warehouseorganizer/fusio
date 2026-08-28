@@ -161,7 +161,7 @@ public final class FusioCsvReader implements Closeable, Iterable<String[]> {
 
     @Override
     public Iterator<String[]> iterator() {
-        return new Iterator<>() {
+        return new Iterator<String[]>() {
             private String[] next;
 
             @Override

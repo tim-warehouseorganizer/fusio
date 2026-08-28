@@ -1,5 +1,8 @@
 package dev.flamelens.fusio;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import dev.flamelens.fusio.pipes.Lines;
 import dev.flamelens.fusio.pipes.Utf8;
 import org.junit.jupiter.api.Test;
@@ -20,8 +23,8 @@ class PipelineTest {
     @Test
     void fileSourceStreamsWholeFile(@TempDir Path dir) throws IOException {
         Path f = dir.resolve("data.txt");
-        String text = "alpha\nbeta\ngamma\n".repeat(10_000); // spans several 64K chunks
-        Files.writeString(f, text, StandardCharsets.UTF_8);
+        String text = repeat("alpha\nbeta\ngamma\n", 10_000); // spans several 64K chunks
+        Files.write(f, (text).getBytes(StandardCharsets.UTF_8));
 
         long lines = ByteSource.file(f).via(Utf8.decode()).via(Lines.split()).count();
         assertEquals(30_000, lines);
@@ -44,7 +47,7 @@ class PipelineTest {
     void toListCollectsInOrder() {
         byte[] data = "x\ny\n".getBytes(StandardCharsets.UTF_8);
         List<String> lines = ByteSource.of(data).via(Utf8.decode()).via(Lines.split()).toList();
-        assertEquals(List.of("x", "y"), lines);
+        assertEquals(java.util.Arrays.asList("x", "y"), lines);
     }
 
     @Test

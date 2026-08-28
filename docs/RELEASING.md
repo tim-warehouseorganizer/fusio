@@ -1,7 +1,25 @@
 # Releasing to Maven Central
 
-## Release Gate for 1.0.0
-The API contract is locked (see README "Stability"), but 1.0.0 does not publish until it has survived contact with real applications: flamelens is deployed and live; the launch blog post is written using flamelens's analysis of the JFR recordings in jfr/; warehouseorganizer AND tüük both run against fusio in real use with no interop issues (WHO already runs it for all CSV paths; tüük's RestClient-based WhoClient exercises the starter's client side). Until then the version stays 1.0.0-SNAPSHOT, consumed from the local .m2.
+Published artifacts: `fusio-core`, `fusio-jdbc`, `fusio-ffm`, `fusio-spring-boot-starter`,
+`fusio-spring-boot3-starter`, `fusio-spring-boot2-starter` (`fusio-bench` skips publishing).
+Every published module needs its own `<url>` and `<scm><url>` — Central rejects the bundle
+otherwise. Java baselines per module are listed in the README; the release build itself
+always runs on JDK 25 (`--release` handles the bytecode level; javadoc/gpg/central plugins
+need a modern JDK).
+
+## Release Gate
+A release publishes only after all three hold:
+
+1. **The `CI` workflow is green on the exact release commit.** That matrix is what proves the
+   baselines: each job builds on JDK 25 and then runs the suites on a real Temurin 8, 11, 17,
+   21 or 25 via surefire's `-Djvm`, plus a Boot 3.2–3.5 sweep. Signatures compiling is not proof.
+2. **`MySqlLoadDataIT` and `PostgresCopyIT` pass** against the `compose.yaml` databases (they
+   `assumeTrue` on a reachable connection — check for `Skipped: 0`, not just a green build).
+3. **At least one real consumer builds and boots** against the staged version: warehouseorganizer
+   for core/jdbc/starter, flamelens or plainsight for core alone.
+
+1.0.0 carried an additional one-time gate — real-application interop before any Central
+publish at all. That is met: 1.0.0 and 1.1.1 are live on Central.
 
 ---
 
@@ -49,8 +67,8 @@ Follow these steps exactly when moving from a development cycle to a live public
 ### 1. Update the Local Version Structure
 Strip the snapshot suffix across the parent project and all child submodules simultaneously:
 ```bash
-mvn versions:set -DnewVersion=1.1.0 -DprocessAllModules=true
-mvn versions:set-property -Dproperty=revision -DnewVersion=1.1.0
+mvn versions:set -DnewVersion=2.0.0 -DprocessAllModules=true
+mvn versions:set-property -Dproperty=revision -DnewVersion=2.0.0
 mvn versions:commit
 ```
 
@@ -61,6 +79,14 @@ docker compose up -d --wait
 mvn clean verify
 mvn test -pl fusio-jdbc -Dtest=MySqlLoadDataIT,PostgresCopyIT
 ```
+
+Then prove the Java 8 baseline on a real Java 8 runtime (the build JDK stays 25;
+only the forked test JVM changes). Point `-Djvm` at a Temurin 8 `java` binary:
+```bash
+mvn -pl fusio-core,fusio-jdbc,fusio-spring-boot2-starter surefire:test -Djvm=/path/to/jdk8/bin/java
+```
+CI runs the same on 8/11/17/21/25 plus a Boot 3.2–3.5 sweep; a green `CI`
+workflow on the release commit is the gate.
 
 ### 3. Deploy and Sign (Using Terminal Loopback)
 To prevent terminal hang-ups where the background GPG agent fails to render a UI password window, pass explicit loopback flags. This forces Maven to capture your PGP passphrase directly in your active terminal thread:
@@ -78,12 +104,12 @@ mvn -Prelease clean deploy -Dgpg.passphraseServerId=central -Darguments="-Dgpg.l
 ### 5. Tag and Reset the Development Loop
 Once verified, lock the tag into your remote repository and immediately shift your local workspace back into active Snapshot development tracking:
 ```bash
-git tag v1.1.0
+git tag v2.0.0
 git push origin --tags
 
 # Roll over to the next micro patch cycle snapshot
-mvn versions:set -DnewVersion=1.1.1-SNAPSHOT -DprocessAllModules=true
+mvn versions:set -DnewVersion=2.0.1-SNAPSHOT -DprocessAllModules=true
 mvn versions:commit
-git commit -am "Bump development cycle version to 1.1.1-SNAPSHOT"
+git commit -am "Bump development cycle version to 2.0.1-SNAPSHOT"
 git push origin main
 ```

@@ -29,8 +29,53 @@ import java.util.List;
  */
 public final class CsvCascade {
 
-    /** Which tier won, and its rows. */
-    public record Result(CsvDialect dialect, int tierIndex, List<String[]> rows) {
+    /** Which tier won, and its rows. (A plain value class; fusio-core targets Java 8.) */
+    public static final class Result {
+        private final CsvDialect dialect;
+        private final int tierIndex;
+        private final List<String[]> rows;
+
+        public Result(CsvDialect dialect, int tierIndex, List<String[]> rows) {
+            this.dialect = dialect;
+            this.tierIndex = tierIndex;
+            this.rows = rows;
+        }
+
+        public CsvDialect dialect() {
+            return dialect;
+        }
+
+        public int tierIndex() {
+            return tierIndex;
+        }
+
+        public List<String[]> rows() {
+            return rows;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof Result)) {
+                return false;
+            }
+            Result r = (Result) o;
+            return tierIndex == r.tierIndex
+                    && java.util.Objects.equals(dialect, r.dialect)
+                    && java.util.Objects.equals(rows, r.rows);
+        }
+
+        @Override
+        public int hashCode() {
+            return java.util.Objects.hash(dialect, tierIndex, rows);
+        }
+
+        @Override
+        public String toString() {
+            return "Result[dialect=" + dialect + ", tierIndex=" + tierIndex + ", rows=" + rows + "]";
+        }
     }
 
     private CsvCascade() {

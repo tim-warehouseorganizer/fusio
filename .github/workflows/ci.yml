@@ -5,20 +5,88 @@ on:
     branches: [ main ]
   pull_request:
 
+# Every job BUILDS with JDK 25 (javac --release N picks the bytecode level and
+# API surface per module) and then RUNS the tests on the JDK under test via
+# surefire's -Djvm. That is what proves the Java 8 / LTS baselines: the same
+# suite executes on a real Temurin 8, 11, 17, 21 and 25 runtime, not just
+# against their API signatures. Module baselines (maven.compiler.release):
+#   fusio-core, fusio-jdbc, fusio-spring-boot2-starter ... 8
+#   fusio-spring-boot-starter (Boot 4), fusio-spring-boot3-starter ... 17
+#   fusio-ffm ... 22 (java.lang.foreign is final from JDK 22)
+#   fusio-bench ... 25 (never published)
 jobs:
   build:
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # ---- Java 8 baseline: core, jdbc, Boot 2.7 starter ----
+          - name: java 8 (core, jdbc, boot2)
+            test-java: '8'
+            modules: fusio-core,fusio-jdbc,fusio-spring-boot2-starter
+          - name: java 11 (core, jdbc, boot2)
+            test-java: '11'
+            modules: fusio-core,fusio-jdbc,fusio-spring-boot2-starter
+          # ---- Java 17: everything except ffm; sweep Boot 3 minors ----
+          - name: java 17 (core, jdbc, boot2/3/4)
+            test-java: '17'
+            modules: fusio-core,fusio-jdbc,fusio-spring-boot2-starter,fusio-spring-boot3-starter,fusio-spring-boot-starter
+          - name: java 17 / boot 3.2
+            test-java: '17'
+            modules: fusio-spring-boot3-starter
+            boot-version: '3.2.12'
+          - name: java 17 / boot 3.3
+            test-java: '17'
+            modules: fusio-spring-boot3-starter
+            boot-version: '3.3.13'
+          - name: java 17 / boot 3.4
+            test-java: '17'
+            modules: fusio-spring-boot3-starter
+            boot-version: '3.4.8'
+          # ---- Java 21 ----
+          - name: java 21 (core, jdbc, boot3/4)
+            test-java: '21'
+            modules: fusio-core,fusio-jdbc,fusio-spring-boot3-starter,fusio-spring-boot-starter
+          # ---- Java 25: the full reactor including ffm and bench ----
+          - name: java 25 (all modules)
+            test-java: '25'
+            modules: ''
     steps:
       - uses: actions/checkout@v4
+      # The JDK under test first, the build JDK last: setup-java leaves the
+      # last one as JAVA_HOME / on PATH, and exports JAVA_HOME_<ver>_X64 for each.
+      - uses: actions/setup-java@v4
+        if: matrix.test-java != '25'
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.test-java }}
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '25'
           cache: maven
-      # All modules, all unit + compat + dialect suites (~230 tests).
-      # *IT integration tests are excluded by surefire naming and run in the
-      # integration job below against real databases.
-      - run: mvn -B -ntp verify
+      - name: Resolve test JVM
+        id: jvm
+        run: |
+          v="${{ matrix.test-java }}"
+          eval "home=\$JAVA_HOME_${v}_X64"
+          echo "path=$home/bin/java" >> "$GITHUB_OUTPUT"
+          "$home/bin/java" -version
+      # Build everything once on JDK 25 without running tests, so downstream
+      # modules resolve from the local repo regardless of the module subset.
+      - name: Build (JDK 25, --release per module)
+        run: mvn -B -ntp -DskipTests install
+      # All unit + compat + dialect suites for the selected modules, executed
+      # on the JDK under test. *IT integration tests are excluded by surefire
+      # naming and run in the integration job below against real databases.
+      - name: Test on JDK ${{ matrix.test-java }}
+        run: >
+          mvn -B -ntp surefire:test
+          -Djvm="${{ steps.jvm.outputs.path }}"
+          ${{ matrix.modules != '' && format('-pl {0}', matrix.modules) || '' }}
+          ${{ matrix.boot-version != '' && format('-Dspring-boot3.version={0}', matrix.boot-version) || '' }}
 
   integration:
     runs-on: ubuntu-latest
