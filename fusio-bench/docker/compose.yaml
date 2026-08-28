@@ -1,0 +1,75 @@
+# Cross-JDK benchmark matrix: the same Java 8 benchmark jar executed on native
+# Temurin 8, 11, 17, 21 and 25 runtimes, strictly one after another (each
+# service waits for the previous one to finish — concurrent JVMs would skew
+# each other's numbers). Results land in ./fusio-bench/results/jdk<N>.txt
+# (human) and .json (JMH machine format).
+#
+#   docker compose -f fusio-bench/docker/compose.yaml up --build --abort-on-container-exit
+#
+# Smoke run (seconds instead of minutes, numbers meaningless):
+#   BENCH_QUICK=1 docker compose -f fusio-bench/docker/compose.yaml up --build
+#
+# One JDK only:
+#   docker compose -f fusio-bench/docker/compose.yaml run --rm --no-deps jdk17
+#
+# Record the host CPU in the result header (optional):
+#   BENCH_CPU="Apple M2" docker compose ...
+
+x-bench: &bench
+  build:
+    context: ../..
+    dockerfile: fusio-bench/docker/Dockerfile
+  volumes:
+    - ../results:/results
+  environment:
+    BENCH_QUICK: ${BENCH_QUICK:-0}
+    BENCH_CPU: ${BENCH_CPU:-}
+  # JMH numbers are only comparable on an otherwise idle, non-throttled host.
+  # The forked JVM runs with -Xms1g -Xmx1g (see run-jdk-matrix.sh); 3g leaves
+  # headroom for JMH itself and metaspace without letting one run starve the VM.
+  mem_limit: 3g
+
+services:
+  jdk8:
+    <<: *bench
+    image: fusio-bench:jdk8
+    build:
+      context: ../..
+      dockerfile: fusio-bench/docker/Dockerfile
+      args: { JDK: "8" }
+  jdk11:
+    <<: *bench
+    image: fusio-bench:jdk11
+    build:
+      context: ../..
+      dockerfile: fusio-bench/docker/Dockerfile
+      args: { JDK: "11" }
+    depends_on:
+      jdk8: { condition: service_completed_successfully }
+  jdk17:
+    <<: *bench
+    image: fusio-bench:jdk17
+    build:
+      context: ../..
+      dockerfile: fusio-bench/docker/Dockerfile
+      args: { JDK: "17" }
+    depends_on:
+      jdk11: { condition: service_completed_successfully }
+  jdk21:
+    <<: *bench
+    image: fusio-bench:jdk21
+    build:
+      context: ../..
+      dockerfile: fusio-bench/docker/Dockerfile
+      args: { JDK: "21" }
+    depends_on:
+      jdk17: { condition: service_completed_successfully }
+  jdk25:
+    <<: *bench
+    image: fusio-bench:jdk25
+    build:
+      context: ../..
+      dockerfile: fusio-bench/docker/Dockerfile
+      args: { JDK: "25" }
+    depends_on:
+      jdk21: { condition: service_completed_successfully }

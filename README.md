@@ -18,6 +18,73 @@ A pipeline is a value: nothing opens until a terminal operation runs, resources 
 bracketed inside the run, and the composed stages fuse into a single loop over
 chunks — one buffer, no per-byte calls, no locks, no `IOException` in your lambdas.
 
+## Requirements and modules
+
+fusio is built with a current JDK but targets old ones: every published jar is
+compiled with `--release` at its module baseline, and CI runs the full test
+suite on real Temurin 8, 11, 17, 21 and 25 runtimes (surefire `-Djvm`), not
+just against their API signatures.
+
+| artifact | Java | what |
+|---|---|---|
+| `fusio-core` | **8+** | the library: `ByteSource`, `Pipe`, pipes, terminals, interop adapters. Zero dependencies. |
+| `fusio-jdbc` | **8+** | bulk-load bridges (MySQL `LOAD DATA`, Postgres `COPY`, generic batches) |
+| `fusio-ffm` | **22+** | `Mmap` and `Segments` — the FFM (`java.lang.foreign`) tier; final API only, no `--enable-preview` |
+| `fusio-spring-boot-starter` | 17+ | Spring Boot **4.x** auto-configuration |
+| `fusio-spring-boot3-starter` | 17+ | Spring Boot **3.2–3.5** (`RestClient` appeared in 3.2) |
+| `fusio-spring-boot2-starter` | 8+ | Spring Boot **2.7** (`javax.servlet`, `RestTemplate`) |
+| `fusio-bench` | 25 | JMH benchmarks; never published |
+
+All three starters expose the same behavior and the same `fusio.*` properties;
+pick the one matching your Boot line.
+
+### The same benchmarks on every JDK
+
+The numbers in this README were taken on JDK 25. Because the fusion wins are
+structural (fewer virtual calls, no per-byte locks, one buffer) they should
+survive older JITs — and you can check rather than trust: a Docker matrix runs
+the *same* Java 8 benchmark jar on native Temurin 8, 11, 17, 21 and 25 images,
+strictly one after another, and writes one JMH result file per JDK:
+
+```bash
+docker compose -f fusio-bench/docker/compose.yaml up --build --abort-on-container-exit
+./fusio-bench/summarize-results.sh > fusio-bench/RESULTS.md   # pivot into one table
+```
+
+The current table — measured this way on an ARM64 host — is in
+[`fusio-bench/RESULTS.md`](fusio-bench/RESULTS.md), with the raw JMH output
+and JSON per JDK under `fusio-bench/results/`. `BENCH_QUICK=1` gives a
+seconds-long smoke run; `run-jdk-matrix.sh jdk17=/path/to/java ...` does the
+same without Docker against JDKs you have installed (`mvn -Pportable -pl
+fusio-bench -am -DskipTests package` builds the portable jar). The JDBC bench
+(needs MySQL) and the FFM benches (Java 22+) are excluded from the matrix.
+
+What that table shows (Temurin 8/11/17/21/25, linux/arm64, `-Xmx1g`):
+
+- **The fused paths are flat across JDKs.** Byte scan 6.8–7.0 ms, byte line
+  views 11.7–12.3 ms, CSV parse 42–47 ms on every JDK from 8 to 25 — the
+  structural wins (no per-byte virtual calls, one buffer, no locks) do not
+  depend on a modern JIT. fusio's CSV parser beats opencsv on all five and
+  Jackson-CSV on all but JDK 8, where Jackson is within 4%.
+- **The "26x per-byte lock" row is a JDK 15+ number.** On 8 and 11
+  `BufferedInputStream.read()` costs ~11–14 ms, not ~100: biased locking
+  (removed in JDK 15, JEP 374) made uncontended `synchronized` nearly free.
+  If you are on Java 8/11 the lock pathology is mostly absent; the fusion and
+  decode wins still apply.
+- **Gzip: fusio's streaming gunzip only pulls ahead on JDK 21+** (65 ms vs
+  68 ms for the `GZIPInputStream` decorator). On 8–17 it is *slower* (81–105
+  ms vs 67–88 ms) — `Inflater` improvements in newer JDKs matter more than the
+  pipeline shape here. If gzip throughput on an old JDK is what you care
+  about, measure before switching.
+- **Decode-heavy paths jump at JDK 21**: `fusedDecodeLines` 54–56 ms on 8–17,
+  31 ms on 21/25 — faster UTF-8 decoding intrinsics, not fusio changes.
+- JDK 17 on this aarch64 host is an outlier on every `CharsetDecoder`-based
+  row (≈60 vs ≈40 ms for the same code on 11 and 21); it affects the java.io
+  decorator baselines and fusio's char paths equally.
+
+Absolute numbers are one machine, one run; the shape of the comparison is the
+point. Re-run the matrix on your hardware before quoting anything.
+
 ## Why
 
 The `java.io` decorator model has four structural costs, each measured in
@@ -57,6 +124,87 @@ in `ArrayList.clear`; replacing the row list with a reused `String[]` buffer
 took fusio from ~53 ms to 40.6 ms.) fusio and Jackson allocate within 0.1% of
 each other — both sit at the floor of one String per cell.
 
+## Format vs format: CSV through fusio vs JSON through Apache Fory / Jackson
+
+fusio has no JSON path, so "fusio vs Fory JSON" cannot be a parser shootout.
+What `TabularFormatBench` measures instead is the question that actually
+comes up — *if I control the wire format for bulk tabular data, what does
+each cost?* The same 200K-row / 1.6M-cell dataset (same RNG, identical
+values, verified cell-for-cell equal after parsing) is ingested as CSV via
+fusio and as JSON via [Apache Fory JSON](https://fory.apache.org/) 1.6.1
+(which advertises "10x faster than Jackson/Gson") and Jackson databind 2.18.
+JDK 25, aarch64, `-Xmx2g`, 5+5 iterations:
+
+| shape | fusio CSV (18.3 MB) | Fory JSON | Jackson JSON |
+|---|---|---|---|
+| **rows** — one `String` per cell | 65.3 ms · 101 MB/op | **41.7 ms** · 101 MB/op (21.7 MB input) | 76.2 ms · 101 MB/op |
+| **records** — typed POJOs (long/int/double/boolean + 3 Strings) | 124.8 ms · 165 MB/op | **65.4 ms** · **48 MB/op** (30.6 MB input) | 134.4 ms · 133 MB/op |
+
+Honest reading:
+
+- **Fory JSON wins both shapes, by 1.6x (rows) and 1.9x (records)**, despite
+  parsing 20–70% more bytes. It is not 10x faster than Jackson here (1.8x and
+  2.1x), but it is the fastest thing in this table.
+- On *rows* all three allocate the same 101 MB — the floor of one String per
+  cell — so the gap is pure parse cost. Fory goes bytes → String directly
+  (Latin-1 fast path, no intermediate `char[]`); fusio's CSV stage is
+  `bytes → Utf8.decode → chars → Csv.parse`, and that decode-then-scan is
+  what it pays for generic composability.
+- On *records* the gap is architectural: Fory parses numbers straight from
+  the input bytes into fields (48 MB/op — only the three String columns are
+  materialized). fusio's CSV always materializes a `String` per cell first,
+  then `Long.parseLong` etc. re-parse it — 165 MB/op and double the work.
+  Jackson sits in between.
+- What this says about fusio: a byte-level CSV stage with typed cell views
+  (parse `long`/`double` directly from the chunk, never allocating the cell
+  String) would close most of this; it is the same trick that makes
+  `fusedByteScan` 6x faster than `readLine`. Roadmap, not shipped.
+- What it does not say: nothing here measures Fory's binary format, writes,
+  or schema evolution; and CSV remains the format your database bulk loaders
+  (`fusio-jdbc`) and spreadsheets speak natively.
+
+Reproduce: `java -jar fusio-bench/target/benchmarks.jar TabularFormatBench
+-jvmArgs "-Xmx2g"`; raw JMH JSON in `fusio-bench/results/tabular-jdk25.json`.
+
+### …and the money case, where it reverses (`DecimalBench`)
+
+The advantage above comes from Fory parsing numbers directly out of the input
+bytes. Financial and ledger APIs routinely **quote** their numbers
+(`"amount":"1234.56"`) so no binary float can round them — and a quoted number
+is just a string token in JSON exactly as it is in CSV, with `BigDecimal`
+built from characters either way. 200K rows, four decimal columns (three
+money-scale, one 20-significant-digit), all five variants verified to produce
+identical `BigDecimal`s:
+
+| variant | input | time | alloc |
+|---|---|---|---|
+| **fusio CSV → BigDecimal** | **10.3 MB** | **67.5 ± 2.3 ms** | 173 MB/op |
+| Fory JSON, quoted (custom codec) | 21.8 MB | 75.5 ± 2.5 ms | 157 MB/op |
+| Jackson JSON, quoted (built-in coercion) | 21.8 MB | 152.2 ± 5.5 ms | 284 MB/op |
+| *Fory JSON, unquoted numbers (control)* | 20.2 MB | *82.4 ± 31.9 ms* | 104 MB/op |
+| *Jackson JSON, unquoted numbers (control)* | 20.2 MB | *97.4 ± 6.0 ms* | 89 MB/op |
+
+- **fusio is fastest here** — 1.1x ahead of Fory and 2.3x ahead of Jackson,
+  the reverse of the typed-POJO row above (where Fory led 1.9x). Once the
+  target type is `BigDecimal`, its construction cost is identical in every
+  format and swamps the parse; what is left is bytes-to-scan, and CSV carries
+  **half the bytes** because it does not repeat a field name on every row.
+- **Fory JSON cannot read quoted decimals at all out of the box.** With a
+  `BigDecimal` field it throws `ForyJsonException: Expected digit at JSON
+  position 5`; there is no coercion switch. The row above uses a 7-line
+  `AbstractJsonValueCodec` (`new BigDecimal(reader.readString())`) — see
+  `DecimalBench.QuotedBigDecimalCodec`. Jackson coerces by default.
+- Jackson's coercion path is expensive: 152 ms vs 97 ms for the same values
+  unquoted, and 284 MB/op — 1.6x fusio's allocation.
+- The Fory control row is noisy (±31.9 ms) and overlaps its own quoted row;
+  do not read "quoted beats unquoted in Fory" from it.
+
+So: **if your decimals arrive as text, CSV through fusio is the cheapest of
+the three, and Fory needs a hand-written codec to participate at all.** If
+your numbers are native JSON numbers on the wire, Fory wins — see the table
+above. Reproduce: `java -jar fusio-bench/target/benchmarks.jar DecimalBench
+-jvmArgs "-Xmx3g"`; raw JSON in `fusio-bench/results/decimal-jdk25.json`.
+
 ## Gzip
 
 `Gzip.gunzip()` is a push-based RFC 1952 stage: full header state machine
@@ -76,7 +224,8 @@ you skip downstream.
 ## mmap: an honest negative result
 
 `Mmap.byteSource(path)` (copy into reused heap chunks) and `Mmap.foldLong`
-(zero-copy `MemorySegment` slices) are implemented and tested. On Windows
+(zero-copy `MemorySegment` slices) are implemented and tested (in `fusio-ffm`,
+Java 22+). On Windows
 ARM64, JDK 25, scanning a page-cache-hot 64 MB file once:
 
 | tier | avg |
@@ -159,8 +308,10 @@ Rows in the adapters are produced lazily with bounded memory; `PipeInputStream`
 pays one defensive copy at the boundary (pipeline buffers are reused; stream
 consumers read at their own pace) — the cost of compatibility, paid only there.
 
-**The Spring Boot starter** (`fusio-spring-boot-starter`, targets Boot 4.x):
-add the jar, get behavior — no configuration required.
+**The Spring Boot starters** (`fusio-spring-boot-starter` for Boot 4.x,
+`fusio-spring-boot3-starter` for 3.2–3.5, `fusio-spring-boot2-starter` for 2.7):
+add the jar, get behavior — no configuration required. On Boot 2.7 the client
+side customizes `RestTemplate` instead of `RestClient`; everything else is identical.
 
 - `text/csv` HttpMessageConverter, server side (`@RequestBody List<String[]>`
   works in controllers) and client side (registered on every Boot-built
@@ -357,9 +508,11 @@ optimization story in this README.
 
 ## Modules
 
-- `fusio-core` — the library. Zero dependencies. Unit tests (including
-  differential tests vs the JDK's UTF-8 decoder and opencsv) run on every build.
-- `fusio-bench` — JMH benchmarks: `java -jar fusio-bench/target/benchmarks.jar`
+See [Requirements and modules](#requirements-and-modules) for the per-artifact
+Java baselines. `fusio-core` is the library (zero dependencies; unit tests
+including differential tests vs the JDK's UTF-8 decoder and opencsv run on
+every build, on every supported JDK). `fusio-bench` is the JMH suite:
+`java -jar fusio-bench/target/benchmarks.jar`.
 
 ## Zero-allocation line views
 
@@ -387,7 +540,7 @@ counting workloads never pay for decoding lines they discard.
 
 ## Off-heap ingestion (`Segments`)
 
-`Segments.collect` / `collectInto` run a byte pipeline straight into native
+(`fusio-ffm`, Java 22+.) `Segments.collect` / `collectInto` run a byte pipeline straight into native
 memory — the shape ML data loading wants (native runtimes read
 `MemorySegment`s; the GC never sees the payload). Decompressing 16 MB of
 gzip to off-heap:
@@ -413,7 +566,13 @@ either platform the profile shows ~99% of app time in `Inflater` itself: the
 pipeline overhead is gone, and the next win would be a faster inflater
 (libdeflate/zlib-ng via FFM) — on the roadmap.
 
-## Stability: the 1.0 contract
+## Stability: the 2.0 contract
+
+**2.0.0 is the Java 8 / LTS port.** The only breaking change from 1.x is that
+`Mmap` and `Segments` moved from `fusio-core` to the new `fusio-ffm` artifact
+(same package, `dev.flamelens.fusio`): add that dependency and no source
+changes are needed. `CsvCascade.Result` is now a plain class with the same
+accessors (`dialect()`, `tierIndex()`, `rows()`) instead of a record.
 
 The public API is locked. Everything documented in this README — the core
 types (`ByteSource`, `Pipeline`, `Pipe`, `Sink`, `Bytes`, `Chars`,
@@ -422,7 +581,7 @@ types (`ByteSource`, `Pipeline`, `Pipe`, `Sink`, `Bytes`, `Chars`,
 `PipeInputStream`, `CsvInputStream`), `JdbcBulkLoad`, and the starter's
 auto-configured behavior and properties — follows semantic versioning:
 
-- **No breaking changes within 1.x.** Existing signatures, parsing/formatting
+- **No breaking changes within 2.x.** Existing signatures, parsing/formatting
   semantics, and dialect behaviors stay fixed; the compat and dialect test
   suites are the executable contract.
 - **Additive evolution only** — new pipes, new dialects, new terminals, new

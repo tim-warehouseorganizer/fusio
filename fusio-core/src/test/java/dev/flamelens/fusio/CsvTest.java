@@ -37,56 +37,56 @@ class CsvTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 64, 8192})
     void plainRows(int chunkSize) {
-        assertRows(List.<String[]>of(new String[]{"a", "b", "c"}, new String[]{"1", "2", "3"}),
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"a", "b", "c"}, new String[]{"1", "2", "3"}),
                 viaFusio("a,b,c\n1,2,3\n", chunkSize));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 64})
     void quotedFieldWithDelimiter(int chunkSize) {
-        assertRows(List.<String[]>of(new String[]{"a,b", "c"}), viaFusio("\"a,b\",c\n", chunkSize));
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"a,b", "c"}), viaFusio("\"a,b\",c\n", chunkSize));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 64})
     void escapedQuotes(int chunkSize) {
-        assertRows(List.<String[]>of(new String[]{"He said \"hi\"", "x"}),
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"He said \"hi\"", "x"}),
                 viaFusio("\"He said \"\"hi\"\"\",x\n", chunkSize));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 64})
     void newlineInsideQuotedField(int chunkSize) {
-        assertRows(List.<String[]>of(new String[]{"line1\nline2", "y"}),
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"line1\nline2", "y"}),
                 viaFusio("\"line1\nline2\",y\n", chunkSize));
     }
 
     @Test
     void crlfRowEndings() {
-        assertRows(List.<String[]>of(new String[]{"a", "b"}, new String[]{"c", "d"}),
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"a", "b"}, new String[]{"c", "d"}),
                 viaFusio("a,b\r\nc,d\r\n", 64));
     }
 
     @Test
     void emptyFields() {
-        assertRows(List.<String[]>of(new String[]{"a", "", "c"}, new String[]{"", "", ""}),
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"a", "", "c"}, new String[]{"", "", ""}),
                 viaFusio("a,,c\n,,\n", 64));
     }
 
     @Test
     void missingTrailingNewlineStillEmitsLastRow() {
-        assertRows(List.<String[]>of(new String[]{"a", "b"}, new String[]{"c", "d"}),
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"a", "b"}, new String[]{"c", "d"}),
                 viaFusio("a,b\nc,d", 64));
     }
 
     @Test
     void trailingDelimiterMeansTrailingEmptyField() {
-        assertRows(List.<String[]>of(new String[]{"a", ""}), viaFusio("a,\n", 64));
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"a", ""}), viaFusio("a,\n", 64));
     }
 
     @Test
     void blankLineIsSingleEmptyField() {
-        assertRows(List.<String[]>of(new String[]{"a"}, new String[]{""}, new String[]{"b"}),
+        assertRows(java.util.Arrays.<String[]>asList(new String[]{"a"}, new String[]{""}, new String[]{"b"}),
                 viaFusio("a\n\nb\n", 64));
     }
 

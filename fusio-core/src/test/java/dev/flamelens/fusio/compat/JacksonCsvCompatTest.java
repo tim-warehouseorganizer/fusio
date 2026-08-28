@@ -1,5 +1,8 @@
 package dev.flamelens.fusio.compat;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import dev.flamelens.fusio.ByteSource;
 import dev.flamelens.fusio.pipes.Csv;
 import dev.flamelens.fusio.pipes.Utf8;
@@ -183,7 +186,7 @@ class JacksonCsvCompatTest {
     @ParameterizedTest
     @ValueSource(ints = {3998, 3999, 4000, 4001})
     void multibyteCharAtBufferBoundary(int prefixLen) {
-        String value = "a".repeat(prefixLen) + '咖';
+        String value = repeat("a", prefixLen) + '咖';
         byte[] bytes = (value + "\n").getBytes(StandardCharsets.UTF_8);
         byte[] pristine = bytes.clone();
         List<String[]> rows = parse(bytes, 4000);
@@ -197,8 +200,8 @@ class JacksonCsvCompatTest {
     @ValueSource(strings = {"/fixtures/jackson-fuzz-499695465.csv", "/fixtures/jackson-fuzz-50402.csv"})
     void fuzzFixturesParseWithoutCrashing(String resource) throws Exception {
         byte[] bytes;
-        try (var in = getClass().getResourceAsStream(resource)) {
-            bytes = in.readAllBytes();
+        try (java.io.InputStream in = getClass().getResourceAsStream(resource)) {
+            bytes = readAllBytes(in);
         }
         List<String[]> rows = parse(bytes, 1024);
         assertTrue(rows.size() > 0);

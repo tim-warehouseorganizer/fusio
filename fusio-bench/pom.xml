@@ -7,7 +7,7 @@
   <parent>
     <groupId>dev.flamelens</groupId>
     <artifactId>fusio-parent</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>fusio-bench</artifactId>
@@ -24,6 +24,8 @@
          jar bundles JMH (GPL+CE) — it must never reach Central under our
          Apache-2.0 coordinates. -->
     <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.compiler.release>25</maven.compiler.release>
+    <bench.jar.name>benchmarks</bench.jar.name>
   </properties>
 
   <dependencies>
@@ -51,6 +53,17 @@
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-csv</artifactId>
       <version>${jackson.version}</version>
+    </dependency>
+    <!-- TabularFormatBench: the same rows as JSON through Apache Fory JSON and Jackson databind -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.fory</groupId>
+      <artifactId>fory-json</artifactId>
+      <version>1.6.1</version>
     </dependency>
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
@@ -97,7 +110,7 @@
             <phase>package</phase>
             <goals><goal>shade</goal></goals>
             <configuration>
-              <finalName>benchmarks</finalName>
+              <finalName>${bench.jar.name}</finalName>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>org.openjdk.jmh.Main</mainClass>
@@ -119,4 +132,46 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <!-- Default: the full suite on JDK 25, including the FFM benches
+         (MmapBench, SegmentBench) that need fusio-ffm / Java 22+. -->
+    <profile>
+      <id>ffm</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>dev.flamelens</groupId>
+          <artifactId>fusio-ffm</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+    <!-- mvn -Pportable -pl fusio-bench package: a Java 8 benchmarks-portable.jar
+         (no FFM benches) that runs unchanged on every JDK from 8 up, so the
+         same workload can be compared across runtimes. Activating this
+         profile explicitly deactivates the default ffm profile. -->
+    <profile>
+      <id>portable</id>
+      <properties>
+        <maven.compiler.release>8</maven.compiler.release>
+        <bench.jar.name>benchmarks-portable</bench.jar.name>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>**/MmapBench.java</exclude>
+                <exclude>**/SegmentBench.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

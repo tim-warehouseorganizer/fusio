@@ -38,7 +38,7 @@ class MySqlLoadDataIT {
     void loadDataRoundTripsAdversarialRows() throws Exception {
         Connection cn = connect();
         assumeTrue(cn != null, "MySQL not reachable at " + URL + " — skipping");
-        try (cn; Statement st = cn.createStatement()) {
+        try (Connection c = cn; Statement st = c.createStatement()) {
             st.execute("DROP TABLE IF EXISTS items");
             st.execute("CREATE TABLE items (id INT, sku VARCHAR(64), name VARCHAR(255))"
                     + " CHARACTER SET utf8mb4");
@@ -54,7 +54,7 @@ class MySqlLoadDataIT {
             }
 
             long loaded = JdbcBulkLoad.mysqlLoadData(cn, "items",
-                    List.of("id", "sku", "name"), rows.iterator());
+                    java.util.Arrays.asList("id", "sku", "name"), rows.iterator());
             assertEquals(rows.size(), loaded);
 
             try (ResultSet rs = st.executeQuery("SELECT sku, name FROM items ORDER BY id LIMIT 5")) {

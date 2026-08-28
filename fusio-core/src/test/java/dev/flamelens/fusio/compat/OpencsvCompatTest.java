@@ -1,5 +1,8 @@
 package dev.flamelens.fusio.compat;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import dev.flamelens.fusio.ByteSource;
 import dev.flamelens.fusio.pipes.Csv;
 import dev.flamelens.fusio.pipes.Utf8;
@@ -235,8 +238,8 @@ class OpencsvCompatTest {
     @Test
     void bug143FixtureMatchesRfc4180Parser() throws Exception {
         byte[] bytes;
-        try (var in = getClass().getResourceAsStream("/fixtures/opencsv-Bug143.csv")) {
-            bytes = in.readAllBytes();
+        try (java.io.InputStream in = getClass().getResourceAsStream("/fixtures/opencsv-Bug143.csv")) {
+            bytes = readAllBytes(in);
         }
         List<String[]> viaFusio = ByteSource.of(bytes, 1024)
                 .via(Utf8.decode())
@@ -244,7 +247,7 @@ class OpencsvCompatTest {
                 .toList();
 
         List<String[]> viaOpencsv = new java.util.ArrayList<>();
-        try (var reader = new com.opencsv.CSVReaderBuilder(
+        try (com.opencsv.CSVReader reader = new com.opencsv.CSVReaderBuilder(
                 new java.io.InputStreamReader(new java.io.ByteArrayInputStream(bytes),
                         StandardCharsets.UTF_8))
                 .withCSVParser(new com.opencsv.RFC4180ParserBuilder().build())

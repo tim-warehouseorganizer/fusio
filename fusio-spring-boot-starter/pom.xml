@@ -7,12 +7,12 @@
   <parent>
     <groupId>dev.flamelens</groupId>
     <artifactId>fusio-parent</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>fusio-spring-boot-starter</artifactId>
   <name>fusio-spring-boot-starter</name>
-  <description>Drop-in Spring Boot auto-configuration: text/csv HttpMessageConverter and gzip request-body decompression backed by fusio pipelines</description>
+  <description>Drop-in Spring Boot 4.x auto-configuration (Java 17+): text/csv HttpMessageConverter and gzip request-body decompression backed by fusio pipelines</description>
 
   <url>https://github.com/tim-warehouseorganizer/fusio/tree/main/fusio-spring-boot-starter</url>
   <scm>
@@ -20,7 +20,9 @@
   </scm>
 
   <properties>
-    <spring-boot.version>4.0.5</spring-boot.version>
+    <spring-boot4.version>4.0.5</spring-boot4.version>
+    <!-- Spring Boot 4 / Spring Framework 7 floor -->
+    <maven.compiler.release>17</maven.compiler.release>
   </properties>
 
   <dependencyManagement>
@@ -28,7 +30,7 @@
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring-boot.version}</version>
+        <version>${spring-boot4.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

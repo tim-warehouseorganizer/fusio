@@ -7,12 +7,12 @@
   <parent>
     <groupId>dev.flamelens</groupId>
     <artifactId>fusio-parent</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>fusio-jdbc</artifactId>
   <name>fusio-jdbc</name>
-  <description>Bulk-load bridges: stream fusio pipelines into MySQL LOAD DATA LOCAL INFILE, Postgres COPY, or generic JDBC batches</description>
+  <description>Bulk-load bridges: stream fusio pipelines into MySQL LOAD DATA LOCAL INFILE, Postgres COPY, or generic JDBC batches (Java 8+)</description>
 
   <url>https://github.com/tim-warehouseorganizer/fusio/tree/main/fusio-jdbc</url>
   <scm>
@@ -49,7 +49,8 @@
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>2.3.232</version>
+      <!-- 2.2.x is the last H2 line with Java 8 bytecode; the suite must run on the Java 8 baseline -->
+      <version>2.2.224</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

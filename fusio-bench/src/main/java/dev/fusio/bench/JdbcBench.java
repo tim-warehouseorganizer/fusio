@@ -84,18 +84,18 @@ public class JdbcBench {
     @Benchmark
     public long plainBatch() throws SQLException {
         return JdbcBulkLoad.batchInsert(plain, "bench_rows",
-                List.of("sku", "name", "qty", "price"), rows.iterator(), 1000);
+                java.util.Arrays.asList("sku", "name", "qty", "price"), rows.iterator(), 1000);
     }
 
     @Benchmark
     public long rewriteBatch() throws SQLException {
         return JdbcBulkLoad.batchInsert(rewrite, "bench_rows",
-                List.of("sku", "name", "qty", "price"), rows.iterator(), 1000);
+                java.util.Arrays.asList("sku", "name", "qty", "price"), rows.iterator(), 1000);
     }
 
     @Benchmark
     public long fusioLoadData() throws SQLException {
         return JdbcBulkLoad.mysqlLoadData(infile, "bench_rows",
-                List.of("sku", "name", "qty", "price"), rows.iterator());
+                java.util.Arrays.asList("sku", "name", "qty", "price"), rows.iterator());
     }
 }

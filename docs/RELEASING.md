@@ -1,5 +1,12 @@
 # Releasing to Maven Central
 
+Published artifacts: `fusio-core`, `fusio-jdbc`, `fusio-ffm`, `fusio-spring-boot-starter`,
+`fusio-spring-boot3-starter`, `fusio-spring-boot2-starter` (`fusio-bench` skips publishing).
+Every published module needs its own `<url>` and `<scm><url>` — Central rejects the bundle
+otherwise. Java baselines per module are listed in the README; the release build itself
+always runs on JDK 25 (`--release` handles the bytecode level; javadoc/gpg/central plugins
+need a modern JDK).
+
 ## Release Gate for 1.0.0
 The API contract is locked (see README "Stability"), but 1.0.0 does not publish until it has survived contact with real applications: flamelens is deployed and live; the launch blog post is written using flamelens's analysis of the JFR recordings in jfr/; warehouseorganizer AND tüük both run against fusio in real use with no interop issues (WHO already runs it for all CSV paths; tüük's RestClient-based WhoClient exercises the starter's client side). Until then the version stays 1.0.0-SNAPSHOT, consumed from the local .m2.
 
@@ -61,6 +68,14 @@ docker compose up -d --wait
 mvn clean verify
 mvn test -pl fusio-jdbc -Dtest=MySqlLoadDataIT,PostgresCopyIT
 ```
+
+Then prove the Java 8 baseline on a real Java 8 runtime (the build JDK stays 25;
+only the forked test JVM changes). Point `-Djvm` at a Temurin 8 `java` binary:
+```bash
+mvn -pl fusio-core,fusio-jdbc,fusio-spring-boot2-starter surefire:test -Djvm=/path/to/jdk8/bin/java
+```
+CI runs the same on 8/11/17/21/25 plus a Boot 3.2–3.5 sweep; a green `CI`
+workflow on the release commit is the gate.
 
 ### 3. Deploy and Sign (Using Terminal Loopback)
 To prevent terminal hang-ups where the background GPG agent fails to render a UI password window, pass explicit loopback flags. This forces Maven to capture your PGP passphrase directly in your active terminal thread:

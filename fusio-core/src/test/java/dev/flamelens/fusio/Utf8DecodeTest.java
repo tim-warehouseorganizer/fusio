@@ -1,5 +1,8 @@
 package dev.flamelens.fusio;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import dev.flamelens.fusio.pipes.Utf8;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +16,7 @@ class Utf8DecodeTest {
 
     // ascii, 2-byte (é, ß), 3-byte (汉, €), 4-byte (😀 -> surrogate pair)
     private static final String MIXED =
-            "plain ascii, then é ß 汉字 € and emoji 😀🚀 mixed into text\n".repeat(40);
+            repeat("plain ascii, then é ß 汉字 € and emoji 😀🚀 mixed into text\n", 40);
 
     private static String decodeVia(byte[] bytes, int chunkSize, int outChars) {
         StringBuilder sb = new StringBuilder();

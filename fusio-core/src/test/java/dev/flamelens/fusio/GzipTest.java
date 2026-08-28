@@ -1,5 +1,8 @@
 package dev.flamelens.fusio;
 
+import static dev.flamelens.fusio.TestUtil.readAllBytes;
+import static dev.flamelens.fusio.TestUtil.repeat;
+
 import dev.flamelens.fusio.pipes.Gzip;
 import dev.flamelens.fusio.pipes.Lines;
 import dev.flamelens.fusio.pipes.Utf8;
@@ -21,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class GzipTest {
 
     private static final byte[] PLAIN =
-            "the quick brown fox, ünïcödé too\n".repeat(5_000).getBytes(StandardCharsets.UTF_8);
+            repeat("the quick brown fox, ünïcödé too\n", 5_000).getBytes(StandardCharsets.UTF_8);
 
     private static byte[] gzip(byte[] data) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
